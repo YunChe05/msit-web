@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body{
+  background-color: #f1f5f9;
+}
+.roundprogress{
+  height: 50px;
+  width: 50px;
+}
+
+.roundprogressbar{
+  height: 300px;
+  width: 300px;
+}
