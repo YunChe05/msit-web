@@ -17,6 +17,7 @@
     "@tanstack/query-core": "^5.17.19",
     "axios": "^1.6.7",
     "date-fns": "^2.30.0",
+    "dayjs": "^1.11.10",
     "eslint-config-next": "^14.0.4",
     "faker": "^6.6.6",
     "formik": "^2.4.5",

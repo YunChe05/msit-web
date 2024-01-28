@@ -1,5 +1,5 @@
-import { useAtom, useSetAtom } from "jotai";
-import { accessTokenAtom, loginAtom } from "../atoms/userAtoms";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { accessTokenAtom, loginAtom, profileAtom } from "../atoms/userAtoms";
 import { useEffect } from "react";
 import { RESET } from "jotai/utils";
 
@@ -25,4 +25,10 @@ export const useLogout = () => {
   };
 
   return { logout };
+};
+
+export const useProfile = () => {
+  const { data, isLoading, isFetching } = useAtomValue(profileAtom);
+
+  return { data, isLoading, isFetching };
 };

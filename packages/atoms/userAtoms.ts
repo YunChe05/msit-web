@@ -2,7 +2,7 @@ import { atom } from "jotai";
 import { atomWithQuery, atomWithMutation } from "jotai-tanstack-query";
 import { errorHandler, makeRequest } from "../utils/axios";
 import { AxiosError } from "axios";
-import { LoginPayload } from "../types/user";
+import { LoginPayload, Profile } from "../types/user";
 import { atomWithStorage } from "jotai/utils";
 
 export const accessTokenAtom = atomWithStorage("accessToken", null);
@@ -19,4 +19,20 @@ export const loginAtom = atomWithMutation((get) => ({
       }
     }
   },
+}));
+
+export const profileAtom = atomWithQuery((get) => ({
+  queryKey: ["auth-user", get(loginAtom), get(accessTokenAtom)],
+  refetchOnMount: false,
+  queryFn: async () => {
+    try {
+      const { data } = await makeRequest.get<Profile>("/profile/my-profile");
+      return data;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        errorHandler(error);
+      }
+    }
+  },
+  retry: false,
 }));
