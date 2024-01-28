@@ -4,7 +4,6 @@ import Layout from "../components/layout";
 import { useLogin } from "../../../packages/hooks/useAuth";
 
 export default function Profile() {
-  useLogin();
   return (
     <>
       <Layout>

@@ -19,6 +19,7 @@
     "date-fns": "^2.30.0",
     "eslint-config-next": "^14.0.4",
     "faker": "^6.6.6",
+    "formik": "^2.4.5",
     "jotai": "^2.6.3",
     "jotai-tanstack-query": "^0.8.2",
     "material-react-table": "^2.5.2",

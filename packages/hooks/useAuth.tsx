@@ -3,9 +3,7 @@ import { loginAtom } from "../atoms/userAtoms";
 import { useEffect } from "react";
 
 export const useLogin = () => {
-  const [{ mutate, status }] = useAtom(loginAtom);
+  const [{ mutate, isSuccess, isPending, isError, error }] = useAtom(loginAtom);
 
-  useEffect(() => {
-    mutate({ identifier: "mikebarquilla8@gmail.com", password: "12345678" });
-  }, []);
+  return { mutate, isSuccess, isError, error, isPending };
 };
