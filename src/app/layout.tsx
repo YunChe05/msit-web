@@ -6,7 +6,7 @@ import { Provider } from "jotai";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Login | Next Dashboard | rajivgupta.rf.gd",
+  title: "Dashboard | Next Dashboard | rajivgupta.rf.gd",
   description: "Advance Next Dashboard",
 };
 
@@ -29,7 +29,7 @@ export default function RootLayout({
         <meta name="twitter:image:height" content="630" />
       </head>
       <body className={inter.className}>
-        <Provider>{children}</Provider>;
+        <Provider>{children}</Provider>
       </body>
     </html>
   );

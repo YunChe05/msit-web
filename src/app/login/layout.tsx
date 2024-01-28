@@ -4,7 +4,7 @@ import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Dashboard | Next Dashboard | rajivgupta.rf.gd",
+  title: "Login | Next Dashboard | rajivgupta.rf.gd",
   description: "Advance Next Dashboard",
 };
 
@@ -26,7 +26,7 @@ export default function RootLayout({
         <meta name="twitter:image:width" content="1200" />
         <meta name="twitter:image:height" content="630" />
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>{children};</body>
     </html>
   );
 }

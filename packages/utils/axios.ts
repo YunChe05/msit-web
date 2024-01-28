@@ -10,19 +10,22 @@ export const makeRequest = axios.create({
   },
 });
 
-// makeRequest.interceptors.request.use(
-//   async (config) => {
-//     const token = await AsyncStorage.getItem('accessToken').then((result) =>
-//       JSON.parse(result ?? '""')
-//     );
-//     if (!!token && config?.headers) {
-//       config.headers.Authorization = `Bearer ${token}`;
-//     }
-//     return config;
-//   },
-//   (error) => Promise.reject(errorHandler(error))
-// );
+makeRequest.interceptors.request.use(
+  async (config) => {
+    try {
+      const token = JSON.parse(localStorage.getItem("accessToken") || "");
 
+      if (token.length !== 0 && config.headers) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    } catch (error) {
+      console.error("Error parsing token from localStorage:", error);
+    }
+
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 export const errorHandler = (error: AxiosError<ErrorEvent>) => {
   if (error.response) {
     throw new Error(parseErrorResponse(error.response));

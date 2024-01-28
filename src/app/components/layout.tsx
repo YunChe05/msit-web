@@ -1,5 +1,5 @@
 "use client";
-import * as React from "react";
+import { FC, useState } from "react";
 import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -17,7 +17,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { Collapse } from "@mui/material";
+import { Button, Collapse } from "@mui/material";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Image from "next/image";
@@ -34,16 +34,22 @@ import RecommendIcon from "@mui/icons-material/Recommend";
 import LiveHelpIcon from "@mui/icons-material/LiveHelp";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
+import { useLogout } from "../../../packages/hooks/useAuth";
 
 const drawerWidth = 240;
 
-function Layout(props) {
-  const { window } = props;
-  const { children } = props;
-  const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [isCollapse, setIsCollapse] = React.useState(false);
+interface LayoutProps {
+  window?: () => Window;
+  children: React.ReactNode;
+}
+
+const Layout: FC<LayoutProps> = ({ window, children }) => {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [isCollapse, setIsCollapse] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
+
+  const { logout } = useLogout();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -53,28 +59,21 @@ function Layout(props) {
     setIsCollapse(!isCollapse);
   };
 
+  const handleLogout = async () => {
+    await logout();
+    router.push("/login");
+  };
+
   const drawer = (
     <div>
       <Toolbar>
-        <Image
-          className="-ml-2 mr-2"
-          src={logo}
-          height={60}
-          width={60}
-          alt=""
-        />
         <Typography variant="h6" noWrap component="div">
-          Rajiv_Rocking
+          MSIT
         </Typography>
       </Toolbar>
       <Divider />
       <List>
-        {[
-          "Dashboard",
-          "Analytics",
-          "Users",
-          "Profile",
-        ].map((text, index) => (
+        {["Dashboard", "Analytics", "Users", "Profile"].map((text, index) => (
           <ListItem
             key={text}
             disablePadding
@@ -83,7 +82,9 @@ function Layout(props) {
                 ? "text-sky-600 bg-slate-100"
                 : "text-slate-700"
             }
-            onClick={()=>{router.push("/" + text.toLowerCase())}}
+            onClick={() => {
+              router.push("/" + text.toLowerCase());
+            }}
           >
             <ListItemButton>
               <ListItemIcon
@@ -110,13 +111,17 @@ function Layout(props) {
           disablePadding
           onClick={handleCollapse}
           className={
-            pathname.startsWith("/help") ? "text-sky-600 bg-slate-100" : "text-slate-700"
+            pathname.startsWith("/help")
+              ? "text-sky-600 bg-slate-100"
+              : "text-slate-700"
           }
         >
           <ListItemButton>
             <ListItemIcon
               className={
-                pathname.startsWith("/help") ? "text-sky-600 bg-slate-100" : "text-slate-700"
+                pathname.startsWith("/help")
+                  ? "text-sky-600 bg-slate-100"
+                  : "text-slate-700"
               }
             >
               <HelpIcon />
@@ -133,7 +138,9 @@ function Layout(props) {
               key={text}
               disablePadding
               className={
-                pathname.startsWith("/help") ? "text-sky-600 bg-slate-100" : "text-slate-700"
+                pathname.startsWith("/help")
+                  ? "text-sky-600 bg-slate-100"
+                  : "text-slate-700"
               }
             >
               <ListItemButton>
@@ -183,9 +190,15 @@ function Layout(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Dashboard
-          </Typography>
+
+          <div className="flex flex-row justify-between w-full">
+            <Typography variant="h6" noWrap component="div">
+              Dashboard
+            </Typography>
+            <Button onClick={handleLogout} variant="outlined">
+              Logout
+            </Button>
+          </div>
         </Toolbar>
       </AppBar>
       <Box
@@ -239,7 +252,7 @@ function Layout(props) {
       </Box>
     </Box>
   );
-}
+};
 
 Layout.propTypes = {
   /**
