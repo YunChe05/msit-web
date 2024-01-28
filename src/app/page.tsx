@@ -11,8 +11,9 @@ import DvrRoundedIcon from "@mui/icons-material/DvrRounded";
 import BookmarksRoundedIcon from "@mui/icons-material/BookmarksRounded";
 import BarChartRoundedIcon from "@mui/icons-material/BarChartRounded";
 import InsightsRoundedIcon from "@mui/icons-material/InsightsRounded";
+import isAuth from "../../packages/components/isAuth";
 
-export default function Home() {
+export const Home = () => {
   return (
     <>
       <Layout>
@@ -199,4 +200,6 @@ export default function Home() {
       </Layout>
     </>
   );
-}
+};
+
+export default isAuth(Home);
