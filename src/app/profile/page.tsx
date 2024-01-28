@@ -4,8 +4,9 @@ import Layout from "../components/layout";
 import { useLogin, useProfile } from "../../../packages/hooks/useAuth";
 import { Card, CardContent, CardHeader, Typography } from "@mui/material";
 import { parseDate } from "../../../packages/helper/parseDateTime";
+import isAuth from "../../../packages/components/isAuth";
 
-export default function Profile() {
+const Profile = () => {
   const { data, isFetching, isLoading } = useProfile();
   return (
     <>
@@ -73,4 +74,6 @@ export default function Profile() {
       </Layout>
     </>
   );
-}
+};
+
+export default isAuth(Profile);

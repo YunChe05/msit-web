@@ -1,21 +1,17 @@
 "use client";
 
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useLogin } from "../../../packages/hooks/useAuth";
 import { Formik } from "formik";
 import { LoginPayload } from "../../../packages/types/user";
-import { useEffect } from "react";
+import {
+  parseErrorMessage,
+  parseValidationError,
+} from "../../../packages/helper/parseErrorMessage";
+import { ErrorMessage } from "../../../packages/components/ErrorMessage";
 
 export default function Login() {
-  const router = useRouter();
-  const { mutate, isSuccess, error, isPending } = useLogin();
-
-  useEffect(() => {
-    if (isSuccess) {
-      router.push("/");
-    }
-  }, [isSuccess]);
+  const { mutate, isSuccess, error, isPending, isError } = useLogin();
 
   const onSubmit = (values: LoginPayload) => {
     mutate(values);
@@ -43,6 +39,7 @@ export default function Login() {
               handleBlur,
               handleSubmit,
               isSubmitting,
+              errors,
             }) => (
               <form onSubmit={handleSubmit}>
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -64,6 +61,13 @@ export default function Login() {
                         value={values.identifier}
                         required
                         className="pl-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      />
+                      <ErrorMessage
+                        isError={!!errors?.identifier || isError}
+                        message={parseValidationError(
+                          error,
+                          errors?.identifier
+                        )}
                       />
                     </div>
                   </div>
