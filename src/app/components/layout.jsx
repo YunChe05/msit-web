@@ -73,9 +73,6 @@ function Layout(props) {
           "Dashboard",
           "Analytics",
           "Users",
-          "Projects",
-          "Messages",
-          "Settings",
           "Profile",
         ].map((text, index) => (
           <ListItem
