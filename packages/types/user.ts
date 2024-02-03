@@ -23,5 +23,18 @@ export type User = {
 };
 
 export type Course = {
+  id: number;
   name: string;
+  code: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type College = {
+  id: number;
+  collegeName: string;
+  createdAt: string;
+  updatedAt: string;
+  code: string;
+  courses: Course[];
 };

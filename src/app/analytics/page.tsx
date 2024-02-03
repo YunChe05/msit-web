@@ -9,6 +9,7 @@ import { useMoodCount } from "../../../packages/hooks/useMood";
 import { PieChart, data } from "./charts/PieChart";
 import { BarChart } from "./charts/BarChart";
 import { Chart } from "react-google-charts";
+import { ChartFilterModal } from "../../../packages/components/ChartFilterModal";
 
 const options = {
   title: "Emotional trend",
@@ -50,16 +51,9 @@ export default function Analytics() {
               <BarChart />
             </div>
           </div>
+          <ChartFilterModal isOpen={isOpen} onClose={handleClose} />
         </>
       </Layout>
-      <BasicModal isOpen={isOpen} onClose={handleClose}>
-        <Typography id="modal-modal-title" variant="h6" component="h2">
-          Filters
-        </Typography>
-        <div className="flex items-center justify-center">
-          <DatePickerComponent />
-        </div>
-      </BasicModal>
     </>
   );
 }

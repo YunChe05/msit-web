@@ -8,21 +8,22 @@ import { atom } from "jotai";
 export const chartFIlter = atom({
   start_date: "",
   end_date: "",
-  course: -1,
-  college: -1,
+  course: { id: -1, name: "" },
+  college: { id: -1, name: "" },
 });
 
 export const moodCountAtom = atomWithQuery((get) => ({
-  queryKey: ["moodCount"],
+  queryKey: ["moodCount", get(chartFIlter)],
   queryFn: async () => {
+    const { college, course, end_date, start_date } = get(chartFIlter);
     try {
       const { data } = await makeRequest.get<MoodCount>("/user-mood/count", {
-        // params: {
-        //   start_date: "2024-02-01",
-        //   end_date: "2024-02-04",
-        //   course: 3,
-        //   college: 2,
-        // },
+        params: {
+          start_date,
+          end_date,
+          college: college.id,
+          course: course.id,
+        },
       });
       return data;
     } catch (error) {

@@ -1,23 +1,44 @@
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
+import { Box } from "@mui/material";
 import Modal from "@mui/material/Modal";
-import { FC, useState } from "react";
+import { FC } from "react";
 
 type BasicModalProps = {
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
   width?: number;
-  height?: number;
 };
+
+const style = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
+
 export const BasicModal: FC<BasicModalProps> = ({
   isOpen,
   onClose,
-  height = 500,
   width = 500,
   children,
 }) => {
+  const style = {
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: width,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  };
+
   return (
     <div>
       <Modal
@@ -26,11 +47,7 @@ export const BasicModal: FC<BasicModalProps> = ({
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <div
-          className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-white border-2 border-solid border-black shadow-md p-4`}
-        >
-          {children as React.ReactElement}
-        </div>
+        <Box sx={style}>{children as React.ReactElement}</Box>
       </Modal>
     </div>
   );
