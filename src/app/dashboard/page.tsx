@@ -2,8 +2,8 @@
 import React, { useEffect } from "react";
 import { Circle } from "rc-progress";
 import CountUp from "react-countup";
-import Layout from "./components/layout";
-import GeoChart from "./analytics/charts/geoChart";
+import Layout from "../components/layout";
+import GeoChart from "../analytics/charts/geoChart";
 import Groups3RoundedIcon from "@mui/icons-material/Groups3Rounded";
 import AssignmentRoundedIcon from "@mui/icons-material/AssignmentRounded";
 import CalendarMonthRoundedIcon from "@mui/icons-material/CalendarMonthRounded";
@@ -11,7 +11,7 @@ import DvrRoundedIcon from "@mui/icons-material/DvrRounded";
 import BookmarksRoundedIcon from "@mui/icons-material/BookmarksRounded";
 import BarChartRoundedIcon from "@mui/icons-material/BarChartRounded";
 import InsightsRoundedIcon from "@mui/icons-material/InsightsRounded";
-import isAuth from "../../packages/components/isAuth";
+import isAuth from "../../../packages/components/isAuth";
 
 export const Home = () => {
   return (

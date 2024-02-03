@@ -6,8 +6,8 @@ import { Provider } from "jotai";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Dashboard | Next Dashboard | rajivgupta.rf.gd",
-  description: "Advance Next Dashboard",
+  title: "MSIT",
+  description: "MSIT Dashboard",
 };
 
 export default function RootLayout({
@@ -17,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
+      {/* <head>
         <meta property="og:image" content="./logo.png" />
         <meta property="og:image:alt" content="Next Dashboard" />
         <meta property="og:image:type" content="image/png" />
@@ -27,7 +27,7 @@ export default function RootLayout({
         <meta name="twitter:image:type" content="image/png" />
         <meta name="twitter:image:width" content="1200" />
         <meta name="twitter:image:height" content="630" />
-      </head>
+      </head> */}
       <body className={inter.className}>
         <Provider>{children}</Provider>
       </body>
