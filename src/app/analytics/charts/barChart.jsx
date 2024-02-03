@@ -27,7 +27,7 @@ export default function App() {
     <Chart
       chartType="BarChart"
       width="100%"
-      height="400px"
+      height="500px"
       data={data}
       options={options}
     />
