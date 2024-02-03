@@ -1,23 +1,19 @@
 import { RangePicker } from "react-typescript-date-picker";
 
 type DatePickerComponent = {
-  startDate: string;
-  endDate: string;
   onChange: () => void;
 };
 export const DatePickerComponent = ({
-  startDate,
+  // startDate,
   // endDate,
   onChange,
 }: DatePickerComponent) => {
-  const currentDate = new Date("2024-01-08");
-  const endDate = new Date();
+  const startDate = new Date();
   return (
     <RangePicker
-      defaultStartDate={currentDate}
-      defaultEndDate={endDate}
+      defaultStartDate={startDate}
       onChange={onChange}
-      size="small"
+      size="large"
     />
   );
 };

@@ -5,20 +5,25 @@ import dynamic from "next/dynamic";
 import { DatePickerComponent } from "../../../packages/components/DatePickerComponent";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { BasicModal } from "../../../packages/components/BasicModal";
+import { useMoodCount } from "../../../packages/hooks/useMood";
+import { PieChart, data } from "./charts/PieChart";
+import { BarChart } from "./charts/BarChart";
+import { Chart } from "react-google-charts";
 
-const PieChart = dynamic(() => import("./charts/pieChart"), {
-  loading: () => <p className="text-white">Chart is Preparing...</p>,
-});
-
-const BarChart = dynamic(() => import("./charts/barChart"), {
-  loading: () => <p className="text-white">Chart is Preparing...</p>,
-});
+const options = {
+  title: "Emotional trend",
+  legend: "true",
+  pieSliceText: "label",
+  is3D: true,
+};
 export default function Analytics() {
+  const { moodCount } = useMoodCount();
   const [isOpen, setIsOpen] = useState(false);
   const handleOpen = () => setIsOpen(true);
   const handleClose = () => {
     setIsOpen(false);
   };
+
   return (
     <>
       <Layout>
@@ -31,7 +36,15 @@ export default function Analytics() {
           </div>
           <div className="grid grid-cols-12 gap-4">
             <div className="col-span-5 rounded-lg shadow-lg px-4 py-4 bg-gray-700">
-              <PieChart />
+              {!!moodCount && (
+                <Chart
+                  chartType="PieChart"
+                  data={[["Mood", "Trend"], ...moodCount]}
+                  options={options}
+                  width={"100%"}
+                  height={"500px"}
+                />
+              )}
             </div>
             <div className="col-span-7 rounded-lg shadow-lg px-4 py-4 bg-gray-700">
               <BarChart />

@@ -8,14 +8,19 @@ export const data = [
   ["Neutral", 83],
 ];
 
-export const options = {
+export const data2 = [
+  ["Sad", 0],
+  ["Happy", 0],
+  ["Neutral", 0],
+];
+
+const options = {
   title: "Emotional trend",
   legend: "true",
   pieSliceText: "label",
   is3D: true,
 };
-
-export default function App() {
+export const PieChart = () => {
   return (
     <Chart
       chartType="PieChart"
@@ -25,4 +30,4 @@ export default function App() {
       height={"500px"}
     />
   );
-}
+};
