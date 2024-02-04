@@ -1,11 +1,16 @@
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { accessTokenAtom, loginAtom, profileAtom } from "../atoms/userAtoms";
+import {
+  accessTokenAtom,
+  loginAtom,
+  profileAtom,
+  registerAtom,
+} from "../atoms/userAtoms";
 import { useEffect } from "react";
 import { RESET } from "jotai/utils";
 import { useRouter } from "next/navigation";
 import { Alert } from "@mui/material";
 import { getProfilesAtom } from "../atoms/studentAtoms";
-import { ProfilesQueryData } from "../types/user";
+import { ProfilesQueryData, RegisterPayload } from "../types/user";
 import { parsedStringDateToDate } from "../helper/parseDateTime";
 import { randomId } from "@mui/x-data-grid-generator";
 
@@ -62,8 +67,9 @@ export const useGetProfilesAtom = () => {
         studentId,
       } = profile;
       return {
-        id: randomId(),
+        id,
         studentId,
+        email: user.email,
         userName: user.username,
         firstName,
         middleName,
@@ -75,3 +81,4 @@ export const useGetProfilesAtom = () => {
     }) || [];
   return { parsedProfile, isLoading, isFetching };
 };
+export const useCreateProfile = () => {};

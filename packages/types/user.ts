@@ -1,6 +1,7 @@
 import { MakePayload } from "./helperType";
 
 export type LoginPayload = { identifier: string; password: string };
+export type RegisterPayload = LoginPayload & { username: string };
 
 export type Profile = {
   id: number;

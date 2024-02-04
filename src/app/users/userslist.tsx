@@ -28,6 +28,7 @@ import {
 } from "@mui/x-data-grid-generator";
 import { useEffect, useState } from "react";
 import { useGetProfilesAtom } from "../../../packages/hooks/useAuth";
+import { FormModal } from "../../../packages/components/FormModal";
 
 const colleges = ["ICS", "COED", "COENG"];
 const courses = ["BSIT", "BSIS", "BSPD"];
@@ -38,151 +39,14 @@ const randomCourse = () => {
   return randomArrayItem(courses);
 };
 
-const initialRows: GridRowsProp = [
-  {
-    id: randomId(),
-    studentId: randomId(),
-    userName: randomUserName(),
-    firstName: randomTraderName(),
-    middleName: randomTraderName(),
-    lastName: randomTraderName(),
-    email: randomEmail(),
-    birthDate: randomCreatedDate(),
-    college: randomCollege(),
-    course: randomCourse(),
-  },
-  {
-    id: randomId(),
-    studentId: randomId(),
-    userName: randomUserName(),
-    firstName: randomTraderName(),
-    middleName: randomTraderName(),
-    lastName: randomTraderName(),
-    email: randomEmail(),
-    birthDate: randomCreatedDate(),
-    college: randomCollege(),
-    course: randomCourse(),
-  },
-  {
-    id: randomId(),
-    studentId: randomId(),
-    userName: randomUserName(),
-    firstName: randomTraderName(),
-    middleName: randomTraderName(),
-    lastName: randomTraderName(),
-    email: randomEmail(),
-    birthDate: randomCreatedDate(),
-    college: randomCollege(),
-    course: randomCourse(),
-  },
-  {
-    id: randomId(),
-    studentId: randomId(),
-    userName: randomUserName(),
-    firstName: randomTraderName(),
-    middleName: randomTraderName(),
-    lastName: randomTraderName(),
-    email: randomEmail(),
-    birthDate: randomCreatedDate(),
-    college: randomCollege(),
-    course: randomCourse(),
-  },
-  {
-    id: randomId(),
-    studentId: randomId(),
-    userName: randomUserName(),
-    firstName: randomTraderName(),
-    middleName: randomTraderName(),
-    lastName: randomTraderName(),
-    email: randomEmail(),
-    birthDate: randomCreatedDate(),
-    college: randomCollege(),
-    course: randomCourse(),
-  },
-  {
-    id: randomId(),
-    studentId: randomId(),
-    userName: randomUserName(),
-    firstName: randomTraderName(),
-    middleName: randomTraderName(),
-    lastName: randomTraderName(),
-    email: randomEmail(),
-    birthDate: randomCreatedDate(),
-    college: randomCollege(),
-    course: randomCourse(),
-  },
-  {
-    id: randomId(),
-    studentId: randomId(),
-    userName: randomUserName(),
-    firstName: randomTraderName(),
-    middleName: randomTraderName(),
-    lastName: randomTraderName(),
-    email: randomEmail(),
-    birthDate: randomCreatedDate(),
-    college: randomCollege(),
-    course: randomCourse(),
-  },
-  {
-    id: randomId(),
-    studentId: randomId(),
-    userName: randomUserName(),
-    firstName: randomTraderName(),
-    middleName: randomTraderName(),
-    lastName: randomTraderName(),
-    email: randomEmail(),
-    birthDate: randomCreatedDate(),
-    college: randomCollege(),
-    course: randomCourse(),
-  },
-  {
-    id: randomId(),
-    studentId: randomId(),
-    userName: randomUserName(),
-    firstName: randomTraderName(),
-    middleName: randomTraderName(),
-    lastName: randomTraderName(),
-    email: randomEmail(),
-    birthDate: randomCreatedDate(),
-    college: randomCollege(),
-    course: randomCourse(),
-  },
-  {
-    id: randomId(),
-    studentId: randomId(),
-    userName: randomUserName(),
-    firstName: randomTraderName(),
-    middleName: randomTraderName(),
-    lastName: randomTraderName(),
-    email: randomEmail(),
-    birthDate: randomCreatedDate(),
-    college: randomCollege(),
-    course: randomCourse(),
-  },
-];
+type EditToolbarProps = {
+  handleOpenModal?: () => void;
+};
 
-interface EditToolbarProps {
-  setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
-  setRowModesModel: (
-    newModel: (oldModel: GridRowModesModel) => GridRowModesModel
-  ) => void;
-}
-
-function EditToolbar(props: EditToolbarProps) {
-  const { setRows, setRowModesModel } = props;
-
-  const handleClick = () => {
-    const id = randomId();
-    setRows((oldRows) => [...oldRows, { id, isNew: true }]);
-    setRowModesModel((oldModel) => ({
-      ...oldModel,
-      [id]: { mode: GridRowModes.Edit, fieldToFocus: "studentId" },
-    }));
-  };
-
+function EditToolbar({ handleOpenModal }: EditToolbarProps) {
   return (
     <GridToolbarContainer>
-      <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
+      <Button color="primary" startIcon={<AddIcon />} onClick={handleOpenModal}>
         Add record
       </Button>
     </GridToolbarContainer>
@@ -191,13 +55,7 @@ function EditToolbar(props: EditToolbarProps) {
 
 export default function FullFeaturedCrudGrid() {
   const { parsedProfile, isFetching, isLoading } = useGetProfilesAtom();
-  const [rows, setRows] = useState(initialRows);
-
-  useEffect(() => {
-    setRows(parsedProfile);
-  }, [isLoading, isFetching]);
-
-  const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleRowEditStop: GridEventListener<"rowEditStop"> = (
     params,
@@ -208,39 +66,20 @@ export default function FullFeaturedCrudGrid() {
     }
   };
 
-  const handleEditClick = (id: GridRowId) => () => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
+  const handleOpenModal = () => {
+    setIsOpen(true);
+  };
+  const handleCloseModal = () => {
+    setIsOpen(false);
   };
 
-  const handleSaveClick = (id: GridRowId) => () => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
-  };
+  const handleEditClick = (id: GridRowId) => () => {};
 
-  const handleDeleteClick = (id: GridRowId) => () => {
-    setRows(rows.filter((row) => row.id !== id));
-  };
+  const handleSaveClick = (id: GridRowId) => () => {};
 
-  const handleCancelClick = (id: GridRowId) => () => {
-    setRowModesModel({
-      ...rowModesModel,
-      [id]: { mode: GridRowModes.View, ignoreModifications: true },
-    });
+  const handleDeleteClick = (id: GridRowId) => () => {};
 
-    const editedRow = rows.find((row) => row.id === id);
-    if (editedRow!.isNew) {
-      setRows(rows.filter((row) => row.id !== id));
-    }
-  };
-
-  const processRowUpdate = (newRow: GridRowModel) => {
-    const updatedRow = { ...newRow, isNew: false };
-    setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
-    return updatedRow;
-  };
-
-  const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
-    setRowModesModel(newRowModesModel);
-  };
+  const handleCancelClick = (id: GridRowId) => () => {};
 
   const columns: GridColDef[] = [
     {
@@ -252,6 +91,12 @@ export default function FullFeaturedCrudGrid() {
     {
       field: "userName",
       headerName: "User Name",
+      width: 180,
+      editable: true,
+    },
+    {
+      field: "email",
+      headerName: "Email",
       width: 180,
       editable: true,
     },
@@ -298,28 +143,6 @@ export default function FullFeaturedCrudGrid() {
       width: 100,
       cellClassName: "actions",
       getActions: ({ id }) => {
-        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
-
-        if (isInEditMode) {
-          return [
-            <GridActionsCellItem
-              icon={<SaveIcon />}
-              label="Save"
-              sx={{
-                color: "primary.main",
-              }}
-              onClick={handleSaveClick(id)}
-            />,
-            <GridActionsCellItem
-              icon={<CancelIcon />}
-              label="Cancel"
-              className="textPrimary"
-              onClick={handleCancelClick(id)}
-              color="inherit"
-            />,
-          ];
-        }
-
         return [
           <GridActionsCellItem
             icon={<EditIcon />}
@@ -354,21 +177,18 @@ export default function FullFeaturedCrudGrid() {
         }}
       >
         <DataGrid
-          sx={{ justifyContent: "space-between", flex: 1 }}
-          rows={rows}
+          rows={parsedProfile}
           columns={columns}
           editMode="row"
-          rowModesModel={rowModesModel}
-          onRowModesModelChange={handleRowModesModelChange}
           onRowEditStop={handleRowEditStop}
-          processRowUpdate={processRowUpdate}
           slots={{
             toolbar: EditToolbar,
           }}
           slotProps={{
-            toolbar: { setRows, setRowModesModel },
+            toolbar: { handleOpenModal },
           }}
         />
+        <FormModal title="Create" isOpen={isOpen} onClose={handleCloseModal} />
       </Box>
     </div>
   );

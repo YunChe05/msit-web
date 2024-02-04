@@ -2,16 +2,41 @@ import { atom } from "jotai";
 import { atomWithQuery, atomWithMutation } from "jotai-tanstack-query";
 import { errorHandler, makeRequest } from "../utils/axios";
 import { AxiosError } from "axios";
-import { LoginPayload, Profile } from "../types/user";
+import { LoginPayload, Profile, RegisterPayload } from "../types/user";
 import { atomWithStorage } from "jotai/utils";
 
 export const accessTokenAtom = atomWithStorage("accessToken", null);
+
+export const userInput = atom({
+  studentId: "",
+  username: "",
+  firstName: "",
+  middleName: "",
+  lastName: "",
+  birthDate: "",
+  course: { id: -1, name: "" },
+  college: { id: -1, name: "" },
+});
 
 export const loginAtom = atomWithMutation((get) => ({
   mutationKey: ["login"],
   mutationFn: async (payload: LoginPayload) => {
     try {
       const res = await makeRequest.post("/auth/local", payload);
+      return res.data;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        errorHandler(error);
+      }
+    }
+  },
+}));
+
+export const registerAtom = atomWithMutation((get) => ({
+  mutationKey: ["register"],
+  mutationFn: async (payload: RegisterPayload) => {
+    try {
+      const res = await makeRequest.post("/auth/local/register", payload);
       return res.data;
     } catch (error) {
       if (error instanceof AxiosError) {
