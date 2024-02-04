@@ -26,7 +26,8 @@ import {
   randomEmail,
   randomUserName,
 } from "@mui/x-data-grid-generator";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useGetProfilesAtom } from "../../../packages/hooks/useAuth";
 
 const colleges = ["ICS", "COED", "COENG"];
 const courses = ["BSIT", "BSIS", "BSPD"];
@@ -38,6 +39,66 @@ const randomCourse = () => {
 };
 
 const initialRows: GridRowsProp = [
+  {
+    id: randomId(),
+    studentId: randomId(),
+    userName: randomUserName(),
+    firstName: randomTraderName(),
+    middleName: randomTraderName(),
+    lastName: randomTraderName(),
+    email: randomEmail(),
+    birthDate: randomCreatedDate(),
+    college: randomCollege(),
+    course: randomCourse(),
+  },
+  {
+    id: randomId(),
+    studentId: randomId(),
+    userName: randomUserName(),
+    firstName: randomTraderName(),
+    middleName: randomTraderName(),
+    lastName: randomTraderName(),
+    email: randomEmail(),
+    birthDate: randomCreatedDate(),
+    college: randomCollege(),
+    course: randomCourse(),
+  },
+  {
+    id: randomId(),
+    studentId: randomId(),
+    userName: randomUserName(),
+    firstName: randomTraderName(),
+    middleName: randomTraderName(),
+    lastName: randomTraderName(),
+    email: randomEmail(),
+    birthDate: randomCreatedDate(),
+    college: randomCollege(),
+    course: randomCourse(),
+  },
+  {
+    id: randomId(),
+    studentId: randomId(),
+    userName: randomUserName(),
+    firstName: randomTraderName(),
+    middleName: randomTraderName(),
+    lastName: randomTraderName(),
+    email: randomEmail(),
+    birthDate: randomCreatedDate(),
+    college: randomCollege(),
+    course: randomCourse(),
+  },
+  {
+    id: randomId(),
+    studentId: randomId(),
+    userName: randomUserName(),
+    firstName: randomTraderName(),
+    middleName: randomTraderName(),
+    lastName: randomTraderName(),
+    email: randomEmail(),
+    birthDate: randomCreatedDate(),
+    college: randomCollege(),
+    course: randomCourse(),
+  },
   {
     id: randomId(),
     studentId: randomId(),
@@ -129,7 +190,13 @@ function EditToolbar(props: EditToolbarProps) {
 }
 
 export default function FullFeaturedCrudGrid() {
+  const { parsedProfile, isFetching, isLoading } = useGetProfilesAtom();
   const [rows, setRows] = useState(initialRows);
+
+  useEffect(() => {
+    setRows(parsedProfile);
+  }, [isLoading, isFetching]);
+
   const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
 
   const handleRowEditStop: GridEventListener<"rowEditStop"> = (
@@ -180,7 +247,7 @@ export default function FullFeaturedCrudGrid() {
       field: "studentId",
       headerName: "Student Id",
       width: 180,
-      editable: false,
+      editable: true,
     },
     {
       field: "userName",

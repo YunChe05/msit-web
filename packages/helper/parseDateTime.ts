@@ -27,5 +27,11 @@ export const convertTextDateToJavaScriptDate = (
   }
   const parsedStartDate = dayjs(start_date);
   const parsedEndDate = dayjs(end_date);
-  return [parsedStartDate.toDate(), parsedEndDate.toDate()];
+  return [parsedStringDateToDate(start_date), parsedStringDateToDate(end_date)];
+};
+
+export const parsedStringDateToDate = (text: string) => {
+  const date = dayjs(text);
+
+  return date.toDate();
 };

@@ -1,7 +1,10 @@
+import { MakePayload } from "./helperType";
+
 export type LoginPayload = { identifier: string; password: string };
 
 export type Profile = {
   id: number;
+  studentId: string;
   firstName: string;
   middleName: string;
   lastName: string;
@@ -11,6 +14,7 @@ export type Profile = {
   updatedAt: string; // Consider using a Date type if needed
   user: User;
   course: Course;
+  college: College;
 };
 
 export type User = {
@@ -37,4 +41,16 @@ export type College = {
   updatedAt: string;
   code: string;
   courses: Course[];
+};
+
+export type PaginationMeta = {
+  pagination: {
+    page: number;
+    pageSize: number;
+    pageCount: number;
+    total: number;
+  };
+};
+export type ProfilesQueryData = MakePayload<Profile[]> & {
+  meta: PaginationMeta;
 };
