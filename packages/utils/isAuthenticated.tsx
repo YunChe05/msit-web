@@ -1,5 +1,8 @@
 export const isAuthenticated = () => {
-  const token = localStorage.getItem("accessToken");
+  let token;
+  if (typeof window !== "undefined") {
+    const token = localStorage.getItem("accessToken");
+  }
 
   return !!token;
 };

@@ -11,7 +11,7 @@ export const collegeAtom = atomWithQuery((get) => ({
   refetchOnMount: false,
   queryFn: async () => {
     try {
-      const { data } = await makeRequest.get<MakePayload<College>>(
+      const { data } = await makeRequest.get<MakePayload<College[]>>(
         "colleges?populate=deep"
       );
       return data.data;

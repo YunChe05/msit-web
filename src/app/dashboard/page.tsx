@@ -13,7 +13,7 @@ import BarChartRoundedIcon from "@mui/icons-material/BarChartRounded";
 import InsightsRoundedIcon from "@mui/icons-material/InsightsRounded";
 import isAuth from "../../../packages/components/isAuth";
 
-export const Home = () => {
+const Dashboard = () => {
   return (
     <>
       <Layout>
@@ -202,4 +202,4 @@ export const Home = () => {
   );
 };
 
-export default isAuth(Home);
+export default isAuth(Dashboard);
