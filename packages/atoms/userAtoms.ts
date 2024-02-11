@@ -9,17 +9,6 @@ export const accessTokenAtom = atomWithStorage("accessToken", null);
 
 export const store = getDefaultStore();
 
-export const userInput = atom({
-  studentId: "",
-  username: "",
-  firstName: "",
-  middleName: "",
-  lastName: "",
-  birthDate: "",
-  course: { id: -1, name: "" },
-  college: { id: -1, name: "" },
-});
-
 export const loginAtom = atomWithMutation((get) => ({
   mutationKey: ["login"],
   mutationFn: async (payload: LoginPayload) => {

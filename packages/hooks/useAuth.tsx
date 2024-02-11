@@ -4,10 +4,15 @@ import { useEffect } from "react";
 import { RESET } from "jotai/utils";
 import { useRouter } from "next/navigation";
 import { Alert } from "@mui/material";
-import { createUserAtom, getProfilesAtom } from "../atoms/studentAtoms";
+import {
+  createUserAtom,
+  editUserAtom,
+  getProfilesAtom,
+} from "../atoms/studentAtoms";
 import { ProfilesQueryData, RegisterPayload, UserProfile } from "../types/user";
 import { parsedStringDateToDate } from "../helper/parseDateTime";
 import { randomId } from "@mui/x-data-grid-generator";
+import { profile } from "console";
 
 export const useLogin = () => {
   const [{ mutate, isSuccess, isPending, isError, error, data }] =
@@ -62,7 +67,7 @@ export const useGetProfilesAtom = () => {
         studentId,
       } = profile;
       return {
-        id,
+        id: user.id,
         studentId,
         email: user.email,
         username: user.username,
@@ -74,10 +79,49 @@ export const useGetProfilesAtom = () => {
         course: course.code.toUpperCase(),
       };
     }) || [];
-  return { parsedProfile, isLoading, isFetching };
+
+  const getSingleProfile = (userId: number): UserProfile | undefined => {
+    const profile = profiles?.find((profile) => userId === profile.user.id);
+    if (!profile) {
+      return;
+    }
+    const {
+      birthDate,
+      college,
+      id,
+      course,
+      firstName,
+      lastName,
+      middleName,
+      user,
+      studentId,
+    } = profile;
+    return {
+      id: user.id,
+      studentId,
+      email: user.email,
+      username: user.username,
+      firstName,
+      middleName,
+      lastName,
+      birthDate,
+      college: `${college.id}:${college.collegeName}`,
+      course: `${course.id}:${course.name}`,
+    };
+  };
+
+  return { parsedProfile, getSingleProfile, isLoading, isFetching };
 };
 export const useCreateProfile = () => {
-  const { mutate, isError, isSuccess, error } = useAtomValue(createUserAtom);
+  const { mutate, isError, isSuccess, error, reset } =
+    useAtomValue(createUserAtom);
 
-  return { createUser: mutate, isSuccess, isError, error };
+  return { createUser: mutate, isSuccess, isError, error, reset };
+};
+
+export const useEditProfile = () => {
+  const { mutate, isError, isSuccess, error, reset } =
+    useAtomValue(editUserAtom);
+
+  return { editUser: mutate, isSuccess, isError, error, reset };
 };

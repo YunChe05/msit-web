@@ -29,6 +29,7 @@ import {
 import { useEffect, useState } from "react";
 import { useGetProfilesAtom } from "../../../packages/hooks/useAuth";
 import { FormModal } from "../../../packages/components/FormModal";
+import { UserProfile } from "../../../packages/types/user";
 
 const colleges = ["ICS", "COED", "COENG"];
 const courses = ["BSIT", "BSIS", "BSPD"];
@@ -54,8 +55,10 @@ function EditToolbar({ handleOpenModal }: EditToolbarProps) {
 }
 
 export default function FullFeaturedCrudGrid() {
-  const { parsedProfile, isFetching, isLoading } = useGetProfilesAtom();
+  const { parsedProfile, getSingleProfile, isFetching, isLoading } =
+    useGetProfilesAtom();
   const [isOpen, setIsOpen] = useState(false);
+  const [initialValue, setInitialValue] = useState<UserProfile>();
 
   const handleRowEditStop: GridEventListener<"rowEditStop"> = (
     params,
@@ -71,13 +74,13 @@ export default function FullFeaturedCrudGrid() {
   };
   const handleCloseModal = () => {
     setIsOpen(false);
+    setInitialValue(undefined);
   };
 
-  const handleEditClick = (id: GridRowId) => () => {};
-
-  const handleSaveClick = (id: GridRowId) => () => {};
-
-  const handleDeleteClick = (id: GridRowId) => () => {};
+  const handleEditClick = (id: GridRowId) => () => {
+    setInitialValue(getSingleProfile(Number(id)));
+    handleOpenModal();
+  };
 
   const handleCancelClick = (id: GridRowId) => () => {};
 
@@ -151,12 +154,6 @@ export default function FullFeaturedCrudGrid() {
             onClick={handleEditClick(id)}
             color="inherit"
           />,
-          <GridActionsCellItem
-            icon={<DeleteIcon />}
-            label="Delete"
-            onClick={handleDeleteClick(id)}
-            color="inherit"
-          />,
         ];
       },
     },
@@ -188,7 +185,11 @@ export default function FullFeaturedCrudGrid() {
             toolbar: { handleOpenModal },
           }}
         />
-        <FormModal title="Create" isOpen={isOpen} onClose={handleCloseModal} />
+        <FormModal
+          isOpen={isOpen}
+          onClose={handleCloseModal}
+          initialValue={initialValue}
+        />
       </Box>
     </div>
   );

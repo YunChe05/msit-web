@@ -57,3 +57,20 @@ export const createUserAtom = atomWithMutation((get) => ({
     get(getProfilesAtom).refetch();
   },
 }));
+
+export const editUserAtom = atomWithMutation((get) => ({
+  mutationKey: ["editUser"],
+  mutationFn: async (payload: UserProfilePayload & { id: number }) => {
+    try {
+      const res = await makeRequest.put(`/edit-user/${payload.id}`, payload);
+      return res.data;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        errorHandler(error);
+      }
+    }
+  },
+  onSuccess: () => {
+    get(getProfilesAtom).refetch();
+  },
+}));

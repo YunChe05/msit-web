@@ -15,24 +15,37 @@ import {
   Typography,
 } from "@mui/material";
 import { Formik } from "formik";
-import { UserProfile, UserProfilePayload } from "../types/user";
-import { useCreateProfile } from "../hooks/useAuth";
+import { UserProfile } from "../types/user";
+import { useCreateProfile, useEditProfile } from "../hooks/useAuth";
 import { getCourses, useGetColleges } from "../hooks/useMood";
 import { Toast } from "./Toast";
 import { useEffect, useState } from "react";
 import { parseErrorMessage } from "../helper/parseErrorMessage";
 
 type FormModalProps = {
-  title?: string;
   isOpen?: boolean;
   onClose?: () => void;
+  initialValue?: UserProfile;
 };
 export const FormModal = ({
   isOpen = false,
   onClose = () => null,
-  title,
+  initialValue,
 }: FormModalProps) => {
-  const { createUser, isSuccess, isError, error } = useCreateProfile();
+  const {
+    createUser,
+    isSuccess: isCreateSuccess,
+    isError: isCreateError,
+    error: errorCreate,
+    reset: createReset,
+  } = useCreateProfile();
+  const {
+    editUser,
+    isSuccess: isEditSuccess,
+    isError: isEditError,
+    error: editError,
+    reset: editReset,
+  } = useEditProfile();
   const { colleges, isCollegeLoading } = useGetColleges();
   const [toastInfo, setToastInfo] = useState<{
     message?: string;
@@ -45,34 +58,66 @@ export const FormModal = ({
   });
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isCreateSuccess) {
       setToastInfo({
         isOpen: true,
         message: "Successfully created a user",
         type: "success",
       });
       onClose();
+      createReset();
     }
-  }, [isSuccess]);
+  }, [isCreateSuccess]);
 
   useEffect(() => {
-    if (isError) {
+    if (isEditSuccess) {
       setToastInfo({
         isOpen: true,
-        message: parseErrorMessage(error),
+        message: `Successfully edited ${initialValue?.firstName} user`,
+        type: "success",
+      });
+      onClose();
+      editReset();
+    }
+  }, [isEditSuccess]);
+
+  useEffect(() => {
+    if (isCreateError) {
+      setToastInfo({
+        isOpen: true,
+        message: parseErrorMessage(errorCreate),
         type: "error",
       });
     }
-  }, [isError]);
+  }, [isCreateError]);
+
+  useEffect(() => {
+    if (isEditError) {
+      setToastInfo({
+        isOpen: true,
+        message: parseErrorMessage(editError),
+        type: "error",
+      });
+    }
+  }, [isEditError]);
 
   const onSubmit = (values: UserProfile) => {
-    console.log(values.birthDate);
-    createUser({
-      ...values,
-      birthDate: values.birthDate.toString(),
-      course: values.course.split(":")[0],
-      college: values.college.split(":")[0],
-    });
+    if (initialValue) {
+      editUser({
+        ...values,
+        id: initialValue?.id || -1,
+        birthDate: values.birthDate.toString(),
+        course: values.course.split(":")[0],
+        college: values.college.split(":")[0],
+      });
+    } else {
+      createUser({
+        ...values,
+        birthDate: values.birthDate.toString(),
+        course: values.course.split(":")[0],
+        college: values.college.split(":")[0],
+      });
+    }
   };
 
   const handleCloseToast = () => {
@@ -99,9 +144,15 @@ export const FormModal = ({
           handleChange,
           handleBlur,
           handleSubmit,
+          setValues,
           isSubmitting,
           errors,
         }) => {
+          useEffect(() => {
+            if (initialValue) {
+              setValues(initialValue);
+            }
+          }, [initialValue]);
           const courses = getCourses(
             colleges,
             Number(values.college.split(":")[0])
@@ -126,7 +177,7 @@ export const FormModal = ({
                   value={values.studentId}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  error={!!errors?.studentId || isError}
+                  error={!!errors?.studentId || isCreateError || isEditError}
                   autoFocus
                   required
                   margin="dense"
@@ -141,7 +192,7 @@ export const FormModal = ({
                   value={values.username}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  error={!!errors?.username || isError}
+                  error={!!errors?.username || isCreateError || isEditError}
                   autoFocus
                   required
                   margin="dense"
@@ -156,7 +207,7 @@ export const FormModal = ({
                   value={values.email}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  error={!!errors?.email || isError}
+                  error={!!errors?.email || isCreateError || isEditError}
                   autoFocus
                   required
                   margin="dense"
@@ -171,7 +222,7 @@ export const FormModal = ({
                   value={values.firstName}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  error={!!errors?.firstName || isError}
+                  error={!!errors?.firstName || isCreateError || isEditError}
                   autoFocus
                   required
                   margin="dense"
@@ -186,7 +237,7 @@ export const FormModal = ({
                   value={values.middleName}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  error={!!errors?.middleName || isError}
+                  error={!!errors?.middleName || isCreateError || isEditError}
                   autoFocus
                   margin="dense"
                   id="middleName"
@@ -200,7 +251,7 @@ export const FormModal = ({
                   value={values.lastName}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  error={!!errors?.lastName || isError}
+                  error={!!errors?.lastName || isCreateError || isEditError}
                   autoFocus
                   required
                   margin="dense"
@@ -215,7 +266,7 @@ export const FormModal = ({
                   value={values.birthDate}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  error={!!errors?.birthDate || isError}
+                  error={!!errors?.birthDate || isCreateError || isEditError}
                   autoFocus
                   required
                   margin="dense"
@@ -239,7 +290,7 @@ export const FormModal = ({
                     onChange={handleChange}
                     onBlur={handleBlur}
                     disabled={isCollegeLoading}
-                    error={!!errors?.college || isError}
+                    error={!!errors?.college || isCreateError || isEditError}
                   >
                     <MenuItem value={"-1:"}>
                       <em>None</em>
@@ -264,7 +315,7 @@ export const FormModal = ({
                     value={values.course}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    error={!!errors?.course || isError}
+                    error={!!errors?.course || isCreateError || isEditError}
                     disabled={isCollegeLoading || courses.length === 0}
                   >
                     <MenuItem value="-1:">
