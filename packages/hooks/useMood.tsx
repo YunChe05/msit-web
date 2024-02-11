@@ -21,8 +21,7 @@ export const useMoodCount = () => {
 
 export const useMoodFilter = () => {
   const [moodFilter, setMoodFilter] = useAtom(chartFIlter);
-  const { data: colleges, isLoading: isCollegeLoading } =
-    useAtomValue(collegeAtom);
+  const { colleges, isCollegeLoading } = useGetColleges();
 
   const courses = getCourses(colleges, moodFilter.college.id);
 
@@ -64,4 +63,11 @@ export const useMoodFilter = () => {
     setCourseId,
     setMoodFilter,
   };
+};
+
+export const useGetColleges = () => {
+  const { data: colleges, isLoading: isCollegeLoading } =
+    useAtomValue(collegeAtom);
+
+  return { colleges, isCollegeLoading };
 };

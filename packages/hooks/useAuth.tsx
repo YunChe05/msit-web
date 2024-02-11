@@ -1,16 +1,11 @@
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import {
-  accessTokenAtom,
-  loginAtom,
-  profileAtom,
-  registerAtom,
-} from "../atoms/userAtoms";
+import { accessTokenAtom, loginAtom, profileAtom } from "../atoms/userAtoms";
 import { useEffect } from "react";
 import { RESET } from "jotai/utils";
 import { useRouter } from "next/navigation";
 import { Alert } from "@mui/material";
-import { getProfilesAtom } from "../atoms/studentAtoms";
-import { ProfilesQueryData, RegisterPayload } from "../types/user";
+import { createUserAtom, getProfilesAtom } from "../atoms/studentAtoms";
+import { ProfilesQueryData, RegisterPayload, UserProfile } from "../types/user";
 import { parsedStringDateToDate } from "../helper/parseDateTime";
 import { randomId } from "@mui/x-data-grid-generator";
 
@@ -53,7 +48,7 @@ export const useGetProfilesAtom = () => {
   const { data: profiles, meta } =
     (data as ProfilesQueryData | undefined) || {};
 
-  const parsedProfile =
+  const parsedProfile: UserProfile[] =
     profiles?.map((profile) => {
       const {
         birthDate,
@@ -70,7 +65,7 @@ export const useGetProfilesAtom = () => {
         id,
         studentId,
         email: user.email,
-        userName: user.username,
+        username: user.username,
         firstName,
         middleName,
         lastName,
@@ -81,4 +76,8 @@ export const useGetProfilesAtom = () => {
     }) || [];
   return { parsedProfile, isLoading, isFetching };
 };
-export const useCreateProfile = () => {};
+export const useCreateProfile = () => {
+  const { mutate, isError, isSuccess, error } = useAtomValue(createUserAtom);
+
+  return { createUser: mutate, isSuccess, isError, error };
+};
