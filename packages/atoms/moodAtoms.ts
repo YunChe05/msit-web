@@ -2,7 +2,6 @@ import { atomWithQuery } from "jotai-tanstack-query";
 import { errorHandler, makeRequest } from "../utils/axios";
 import { AxiosError } from "axios";
 import { MakePayload } from "../types/helperType";
-import { MoodCount } from "../types/mood";
 import { atom } from "jotai";
 
 export const chartFIlter = atom({
@@ -17,7 +16,7 @@ export const moodCountAtom = atomWithQuery((get) => ({
   queryFn: async () => {
     const { college, course, end_date, start_date } = get(chartFIlter);
     try {
-      const { data } = await makeRequest.get<MoodCount>("/user-mood/count", {
+      const { data } = await makeRequest.get<ChartData>("/user-mood/count", {
         params: {
           start_date,
           end_date,
