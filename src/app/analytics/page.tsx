@@ -19,18 +19,12 @@ const options = {
   pieSliceText: "label",
   is3D: true,
 };
-export const data = [
-  ["Date", "Sales", "Expenses"],
-  ["2004", 1000, 400],
-  ["2005", 1170, 460],
-  ["2006", 660, 1120],
-  ["2007", 1030, 540],
-];
 
-export const lineChartOptions = {
+const lineChartOptions = {
   curveType: "function",
   legend: { position: "bottom" },
 };
+
 export default function Analytics() {
   const { pieChart, lineChart } = useMoodCount();
 
