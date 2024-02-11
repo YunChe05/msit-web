@@ -25,7 +25,7 @@ import { parseErrorMessage } from "../helper/parseErrorMessage";
 type FormModalProps = {
   isOpen?: boolean;
   onClose?: () => void;
-  initialValue?: UserProfile;
+  initialValue: UserProfile;
 };
 export const FormModal = ({
   isOpen = false,
@@ -57,6 +57,8 @@ export const FormModal = ({
     type: "success",
   });
 
+  const isEditing = !!initialValue?.id;
+
   useEffect(() => {
     if (isCreateSuccess) {
       setToastInfo({
@@ -73,7 +75,7 @@ export const FormModal = ({
     if (isEditSuccess) {
       setToastInfo({
         isOpen: true,
-        message: `Successfully edited ${initialValue?.firstName} user`,
+        message: `Successfully edited ${initialValue?.firstName}'s profile`,
         type: "success",
       });
       onClose();
@@ -102,7 +104,7 @@ export const FormModal = ({
   }, [isEditError]);
 
   const onSubmit = (values: UserProfile) => {
-    if (initialValue) {
+    if (isEditing) {
       editUser({
         ...values,
         id: initialValue?.id || -1,
@@ -118,6 +120,12 @@ export const FormModal = ({
         college: values.college.split(":")[0],
       });
     }
+  };
+
+  const handleOnClose = () => {
+    onClose();
+    editReset();
+    createReset();
   };
 
   const handleCloseToast = () => {
@@ -149,9 +157,7 @@ export const FormModal = ({
           errors,
         }) => {
           useEffect(() => {
-            if (initialValue) {
-              setValues(initialValue);
-            }
+            setValues(initialValue);
           }, [initialValue]);
           const courses = getCourses(
             colleges,
@@ -160,13 +166,15 @@ export const FormModal = ({
           return (
             <Dialog
               open={isOpen}
-              onClose={onClose}
+              onClose={handleOnClose}
               PaperProps={{
                 component: "form",
                 onSubmit: handleSubmit,
               }}
             >
-              <DialogTitle>Add new user</DialogTitle>
+              <DialogTitle>
+                {isEditing ? "Edit user" : "Add new user"}
+              </DialogTitle>
               <DialogContent>
                 <DialogContentText>
                   To subscribe to this website, please enter your email address
@@ -331,7 +339,7 @@ export const FormModal = ({
               </DialogContent>
               <DialogActions>
                 <Button onClick={onClose}>Cancel</Button>
-                <Button type="submit">Save</Button>
+                <Button type="submit"> {isEditing ? "Update" : "Save"}</Button>
               </DialogActions>
             </Dialog>
           );

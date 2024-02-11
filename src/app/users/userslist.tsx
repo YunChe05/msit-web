@@ -30,6 +30,7 @@ import { useEffect, useState } from "react";
 import { useGetProfilesAtom } from "../../../packages/hooks/useAuth";
 import { FormModal } from "../../../packages/components/FormModal";
 import { UserProfile } from "../../../packages/types/user";
+import { EmptyForm } from "../../../packages/constants/staticMessages";
 
 const colleges = ["ICS", "COED", "COENG"];
 const courses = ["BSIT", "BSIS", "BSPD"];
@@ -41,13 +42,13 @@ const randomCourse = () => {
 };
 
 type EditToolbarProps = {
-  handleOpenModal?: () => void;
+  handleCreate?: () => void;
 };
 
-function EditToolbar({ handleOpenModal }: EditToolbarProps) {
+function EditToolbar({ handleCreate }: EditToolbarProps) {
   return (
     <GridToolbarContainer>
-      <Button color="primary" startIcon={<AddIcon />} onClick={handleOpenModal}>
+      <Button color="primary" startIcon={<AddIcon />} onClick={handleCreate}>
         Add record
       </Button>
     </GridToolbarContainer>
@@ -58,49 +59,42 @@ export default function FullFeaturedCrudGrid() {
   const { parsedProfile, getSingleProfile, isFetching, isLoading } =
     useGetProfilesAtom();
   const [isOpen, setIsOpen] = useState(false);
-  const [initialValue, setInitialValue] = useState<UserProfile>();
+  const [initialValue, setInitialValue] = useState<UserProfile>(EmptyForm);
 
-  const handleRowEditStop: GridEventListener<"rowEditStop"> = (
-    params,
-    event
-  ) => {
-    if (params.reason === GridRowEditStopReasons.rowFocusOut) {
-      event.defaultMuiPrevented = true;
-    }
-  };
-
-  const handleOpenModal = () => {
+  const handleCreate = () => {
     setIsOpen(true);
+    setInitialValue(EmptyForm);
   };
   const handleCloseModal = () => {
-    setIsOpen(false);
-    setInitialValue(undefined);
+    return new Promise(() => {
+      setIsOpen(false);
+    }).then(() => {
+      setInitialValue(EmptyForm);
+    });
   };
 
   const handleEditClick = (id: GridRowId) => () => {
-    setInitialValue(getSingleProfile(Number(id)));
-    handleOpenModal();
+    setInitialValue(getSingleProfile(Number(id)) || EmptyForm);
+    setIsOpen(true);
   };
-
-  const handleCancelClick = (id: GridRowId) => () => {};
 
   const columns: GridColDef[] = [
     {
       field: "studentId",
       headerName: "Student Id",
-      width: 180,
+      width: 100,
       editable: true,
     },
     {
       field: "username",
       headerName: "User Name",
-      width: 180,
+      width: 100,
       editable: true,
     },
     {
       field: "email",
       headerName: "Email",
-      width: 180,
+      width: 200,
       editable: true,
     },
     {
@@ -163,7 +157,7 @@ export default function FullFeaturedCrudGrid() {
     <div className="flex justify-center items-center">
       <Box
         sx={{
-          height: 500,
+          height: "100%",
           width: "100%",
           "& .actions": {
             color: "text.secondary",
@@ -176,13 +170,11 @@ export default function FullFeaturedCrudGrid() {
         <DataGrid
           rows={parsedProfile}
           columns={columns}
-          editMode="row"
-          onRowEditStop={handleRowEditStop}
           slots={{
             toolbar: EditToolbar,
           }}
           slotProps={{
-            toolbar: { handleOpenModal },
+            toolbar: { handleCreate },
           }}
         />
         <FormModal
