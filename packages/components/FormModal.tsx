@@ -30,7 +30,17 @@ type FormModalProps = {
 export const FormModal = ({
   isOpen = false,
   onClose = () => null,
-  initialValue,
+  initialValue = {
+    studentId: "",
+    email: "",
+    username: "",
+    firstName: "",
+    lastName: "",
+    middleName: "",
+    birthDate: "2000-01-01",
+    college: "-1:",
+    course: "-1:",
+  },
 }: FormModalProps) => {
   const {
     createUser,
@@ -134,17 +144,8 @@ export const FormModal = ({
   return (
     <>
       <Formik<UserProfile>
-        initialValues={{
-          studentId: "",
-          email: "",
-          username: "",
-          firstName: "",
-          lastName: "",
-          middleName: "",
-          birthDate: "2000-01-01",
-          college: "-1:",
-          course: "-1:",
-        }}
+        initialValues={initialValue}
+        enableReinitialize
         onSubmit={onSubmit}
       >
         {({
@@ -156,9 +157,6 @@ export const FormModal = ({
           isSubmitting,
           errors,
         }) => {
-          useEffect(() => {
-            setValues(initialValue);
-          }, [initialValue]);
           const courses = getCourses(
             colleges,
             Number(values.college.split(":")[0])
