@@ -5,19 +5,44 @@ import Typography from "@mui/material/Typography";
 import { ThumbUp, ThumbDown } from "@mui/icons-material";
 import { Box } from "@mui/material";
 
-export const PostCard = () => {
+type PostCardProps = {
+  name: string;
+  date: string;
+  title: string;
+  body: string;
+  likes: number;
+  dislikes: number;
+};
+export const PostCard = ({
+  name,
+  body,
+  date,
+  dislikes,
+  likes,
+  title,
+}: PostCardProps) => {
   return (
-    <Card sx={{ maxWidth: 500 }}>
-      <CardHeader title="Mike Barquilla" subheader="September 14, 2016" />
+    <Card
+      sx={{
+        maxWidth: 500,
+        display: "flex",
+        flexDirection: "column",
+        border: 1,
+        borderColor: "grey.500",
+      }}
+    >
+      <CardHeader
+        sx={{ borderBottom: 1, borderColor: "grey.500" }}
+        title={name}
+        subheader={date}
+      />
 
-      <CardContent>
+      <CardContent sx={{ flexGrow: 1 }}>
         <Typography variant="body1" color="text.primary">
-          Title
+          {title}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the
-          mussels, if you like.
+          {body}
         </Typography>
       </CardContent>
       <Box
@@ -27,6 +52,7 @@ export const PostCard = () => {
           justifyContent: "space-around",
           borderTop: 1,
           borderColor: "grey.500",
+          flexShrink: 0,
         }}
       >
         <Box
@@ -43,7 +69,7 @@ export const PostCard = () => {
         >
           <ThumbUp />
           <Typography variant="subtitle1" color="text.secondary">
-            100
+            {likes}
           </Typography>
         </Box>
         <Box
@@ -58,7 +84,7 @@ export const PostCard = () => {
         >
           <ThumbDown />
           <Typography variant="subtitle1" color="text.secondary">
-            100
+            {dislikes}
           </Typography>
         </Box>
       </Box>
