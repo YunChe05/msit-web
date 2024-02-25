@@ -23,13 +23,9 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import SpaceDashboardIcon from "@mui/icons-material/SpaceDashboard";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import PeopAltIcon from "@mui/icons-material/PeopleAlt";
-import WorkIcon from "@mui/icons-material/Work";
-import SettingsIcon from "@mui/icons-material/Settings";
+import PieChartIcon from "@mui/icons-material/PieChart";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import HelpIcon from "@mui/icons-material/Help";
-import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
-import RecommendIcon from "@mui/icons-material/Recommend";
-import LiveHelpIcon from "@mui/icons-material/LiveHelp";
+import BarChartIcon from "@mui/icons-material/BarChart";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { useLogout } from "../../../packages/hooks/useAuth";
@@ -75,7 +71,7 @@ const Layout: FC<LayoutProps> = ({ window, children }) => {
       </Toolbar>
       <Divider />
       <List>
-        {["Freedom wall", "Analytics", "Users", "Profile"].map(
+        {["Freedom Wall", "Pie Chart", "Bar Chart", "Users", "Profile"].map(
           (text, index) => (
             <ListItem
               key={text}
@@ -92,15 +88,16 @@ const Layout: FC<LayoutProps> = ({ window, children }) => {
               <ListItemButton>
                 <ListItemIcon
                   className={
-                    pathname.startsWith("/" + text.toLowerCase())
+                    pathname.startsWith("/" + convertToUrlParams(text))
                       ? "text-sky-600 bg-slate-100"
                       : "text-slate-700"
                   }
                 >
                   {index === 0 && <SpaceDashboardIcon />}
-                  {index === 1 && <QueryStatsIcon />}
-                  {index === 2 && <PeopAltIcon />}
-                  {index === 3 && <AccountCircleIcon />}
+                  {index === 1 && <PieChartIcon />}
+                  {index === 2 && <BarChartIcon />}
+                  {index === 3 && <PeopAltIcon />}
+                  {index === 4 && <AccountCircleIcon />}
                 </ListItemIcon>
                 <ListItemText primary={text} />
               </ListItemButton>
@@ -126,7 +123,7 @@ const Layout: FC<LayoutProps> = ({ window, children }) => {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <div className="flex">
       <CssBaseline />
       <AppBar
         position="fixed"
@@ -207,7 +204,7 @@ const Layout: FC<LayoutProps> = ({ window, children }) => {
         <Toolbar />
         <main>{children}</main>
       </Box>
-    </Box>
+    </div>
   );
 };
 
