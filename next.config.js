@@ -8,7 +8,7 @@ const nextConfig = {
       redirects: async () => [
         {
           source: '/',
-          destination: '/dashboard',
+          destination: '/freedom-wall',
           permanent: true,
         },
       ],

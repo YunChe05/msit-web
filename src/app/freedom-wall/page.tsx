@@ -7,11 +7,10 @@ import { useGetPosts } from "../../../packages/hooks/usePosts";
 import { parseDate } from "../../../packages/helper/parseDateTime";
 import { Typography } from "@mui/material";
 
-const Dashboard = () => {
+const Posts = () => {
   const { posts, meta, isLoading } = useGetPosts();
   return (
     <Layout>
-      <Typography variant="h4">Freedom wall</Typography>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-4 pt-2">
         {posts &&
           posts.map(
@@ -34,4 +33,4 @@ const Dashboard = () => {
   );
 };
 
-export default isAuth(Dashboard);
+export default isAuth(Posts);

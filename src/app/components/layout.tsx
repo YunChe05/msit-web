@@ -20,8 +20,6 @@ import Typography from "@mui/material/Typography";
 import { Button, Collapse } from "@mui/material";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import Image from "next/image";
-import logo from "./logo.gif";
 import SpaceDashboardIcon from "@mui/icons-material/SpaceDashboard";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import PeopAltIcon from "@mui/icons-material/PeopleAlt";
@@ -35,6 +33,10 @@ import LiveHelpIcon from "@mui/icons-material/LiveHelp";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { useLogout } from "../../../packages/hooks/useAuth";
+import {
+  convertFromUrlParams,
+  convertToUrlParams,
+} from "../../../packages/helper/parseUrl";
 
 const drawerWidth = 240;
 
@@ -73,39 +75,38 @@ const Layout: FC<LayoutProps> = ({ window, children }) => {
       </Toolbar>
       <Divider />
       <List>
-        {["Dashboard", "Analytics", "Users", "Profile"].map((text, index) => (
-          <ListItem
-            key={text}
-            disablePadding
-            className={
-              pathname.startsWith("/" + text.toLowerCase())
-                ? "text-sky-600 bg-slate-100"
-                : "text-slate-700"
-            }
-            onClick={() => {
-              router.push("/" + text.toLowerCase());
-            }}
-          >
-            <ListItemButton>
-              <ListItemIcon
-                className={
-                  pathname.startsWith("/" + text.toLowerCase())
-                    ? "text-sky-600 bg-slate-100"
-                    : "text-slate-700"
-                }
-              >
-                {index === 0 && <SpaceDashboardIcon />}
-                {index === 1 && <QueryStatsIcon />}
-                {index === 2 && <PeopAltIcon />}
-                {index === 3 && <WorkIcon />}
-                {index === 4 && <MailIcon />}
-                {index === 5 && <SettingsIcon />}
-                {index === 6 && <AccountCircleIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        {["Freedom wall", "Analytics", "Users", "Profile"].map(
+          (text, index) => (
+            <ListItem
+              key={text}
+              disablePadding
+              className={
+                pathname.startsWith("/" + convertToUrlParams(text))
+                  ? "text-sky-600 bg-slate-100"
+                  : "text-slate-700"
+              }
+              onClick={() => {
+                router.push("/" + convertToUrlParams(text));
+              }}
+            >
+              <ListItemButton>
+                <ListItemIcon
+                  className={
+                    pathname.startsWith("/" + text.toLowerCase())
+                      ? "text-sky-600 bg-slate-100"
+                      : "text-slate-700"
+                  }
+                >
+                  {index === 0 && <SpaceDashboardIcon />}
+                  {index === 1 && <QueryStatsIcon />}
+                  {index === 2 && <PeopAltIcon />}
+                  {index === 3 && <AccountCircleIcon />}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
+          )
+        )}
         <Divider />
         <ListItem
           disablePadding
@@ -115,52 +116,8 @@ const Layout: FC<LayoutProps> = ({ window, children }) => {
               ? "text-sky-600 bg-slate-100"
               : "text-slate-700"
           }
-        >
-          <ListItemButton>
-            <ListItemIcon
-              className={
-                pathname.startsWith("/help")
-                  ? "text-sky-600 bg-slate-100"
-                  : "text-slate-700"
-              }
-            >
-              <HelpIcon />
-            </ListItemIcon>
-            <ListItemText primary="Help" />
-            {isCollapse ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-          </ListItemButton>
-        </ListItem>
+        ></ListItem>
       </List>
-      <Collapse in={isCollapse} timeout="auto" unmountOnExit>
-        <List className="ml-4">
-          {["Library", "Support", "FAQ"].map((text, index) => (
-            <ListItem
-              key={text}
-              disablePadding
-              className={
-                pathname.startsWith("/help")
-                  ? "text-sky-600 bg-slate-100"
-                  : "text-slate-700"
-              }
-            >
-              <ListItemButton>
-                <ListItemIcon
-                  className={
-                    pathname.startsWith("/help")
-                      ? "text-sky-600 bg-slate-100"
-                      : "text-slate-700"
-                  }
-                >
-                  {index === 0 && <LibraryBooksIcon />}
-                  {index === 1 && <RecommendIcon />}
-                  {index === 2 && <LiveHelpIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-      </Collapse>
     </div>
   );
 
@@ -193,7 +150,7 @@ const Layout: FC<LayoutProps> = ({ window, children }) => {
 
           <div className="flex flex-row justify-between w-full">
             <Typography variant="h6" noWrap component="div">
-              Dashboard
+              {convertFromUrlParams(pathname)}
             </Typography>
             <Button onClick={handleLogout} variant="outlined">
               Logout
