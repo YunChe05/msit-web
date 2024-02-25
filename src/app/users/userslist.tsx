@@ -161,35 +161,37 @@ export default function FullFeaturedCrudGrid() {
   ];
 
   return (
-    <div className="flex justify-center items-center">
-      <Box
-        sx={{
-          height: "100%",
-          minWidth: "100%",
-          "& .actions": {
-            color: "text.secondary",
-          },
-          "& .textPrimary": {
-            color: "text.primary",
-          },
-        }}
-      >
-        <DataGrid
-          rows={parsedProfile}
-          columns={columns}
-          slots={{
-            toolbar: EditToolbar,
+    <>
+      <div className="flex justify-center items-center">
+        <Box
+          sx={{
+            height: "100%",
+            minWidth: "100%",
+            "& .actions": {
+              color: "text.secondary",
+            },
+            "& .textPrimary": {
+              color: "text.primary",
+            },
           }}
-          slotProps={{
-            toolbar: { handleCreate },
-          }}
-        />
-        <FormModal
-          isOpen={isOpen}
-          onClose={handleCloseModal}
-          initialValue={initialValue}
-        />
-      </Box>
-    </div>
+        >
+          <DataGrid
+            rows={parsedProfile}
+            columns={columns}
+            slots={{
+              toolbar: EditToolbar,
+            }}
+            slotProps={{
+              toolbar: { handleCreate },
+            }}
+          />
+        </Box>
+      </div>
+      <FormModal
+        isOpen={isOpen}
+        onClose={handleCloseModal}
+        initialValue={initialValue}
+      />
+    </>
   );
 }

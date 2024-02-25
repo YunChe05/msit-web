@@ -8,6 +8,8 @@ import {
   DialogTitle,
   Divider,
   FormControl,
+  Grid,
+  IconButton,
   InputLabel,
   MenuItem,
   Select,
@@ -21,6 +23,7 @@ import { getCourses, useGetColleges } from "../hooks/useMood";
 import { Toast } from "./Toast";
 import { useEffect, useState } from "react";
 import { parseErrorMessage } from "../helper/parseErrorMessage";
+import CloseIcon from "@mui/icons-material/Close";
 
 type FormModalProps = {
   isOpen?: boolean;
@@ -164,176 +167,222 @@ export const FormModal = ({
           return (
             <Dialog
               open={isOpen}
+              fullScreen
               onClose={handleOnClose}
               PaperProps={{
                 component: "form",
                 onSubmit: handleSubmit,
               }}
             >
-              <DialogTitle>
+              <IconButton
+                aria-label="close"
+                onClick={handleOnClose}
+                sx={{
+                  position: "absolute",
+                  right: 8,
+                  top: 8,
+                  color: (theme) => theme.palette.grey[500],
+                }}
+              >
+                <CloseIcon />
+              </IconButton>
+              <DialogTitle variant="h4">
                 {isEditing ? "Edit user" : "Add new user"}
               </DialogTitle>
               <DialogContent>
                 <DialogContentText>
-                  To subscribe to this website, please enter your email address
-                  here. We will send updates occasionally.
+                  Attention: Prior to finalizing the addition, please ensure the
+                  accuracy and completeness of the provided user information.
+                  Your thoroughness is crucial for maintaining seamless
+                  operations and user satisfaction. Thank you for your attention
+                  to detail.
                 </DialogContentText>
+                <Grid container spacing={3} sx={{ marginTop: 2 }}>
+                  <Grid item xs={12} md={4}>
+                    <TextField
+                      value={values.studentId}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={
+                        !!errors?.studentId || isCreateError || isEditError
+                      }
+                      autoFocus
+                      required
+                      margin="dense"
+                      id="studentId"
+                      name="studentId"
+                      label="Student Id"
+                      type="text"
+                      variant="standard"
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={4}>
+                    <TextField
+                      value={values.username}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={!!errors?.username || isCreateError || isEditError}
+                      autoFocus
+                      required
+                      margin="dense"
+                      id="username"
+                      name="username"
+                      label="Username"
+                      type="text"
+                      variant="standard"
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={4}>
+                    <TextField
+                      value={values.email}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={!!errors?.email || isCreateError || isEditError}
+                      autoFocus
+                      required
+                      margin="dense"
+                      id="email"
+                      name="email"
+                      label="Email Address"
+                      type="email"
+                      variant="standard"
+                      fullWidth
+                    />
+                  </Grid>
 
-                <TextField
-                  value={values.studentId}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={!!errors?.studentId || isCreateError || isEditError}
-                  autoFocus
-                  required
-                  margin="dense"
-                  id="studentId"
-                  name="studentId"
-                  label="Student Id"
-                  type="text"
-                  variant="standard"
-                  fullWidth
-                />
-                <TextField
-                  value={values.username}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={!!errors?.username || isCreateError || isEditError}
-                  autoFocus
-                  required
-                  margin="dense"
-                  id="username"
-                  name="username"
-                  label="Username"
-                  type="text"
-                  variant="standard"
-                  fullWidth
-                />
-                <TextField
-                  value={values.email}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={!!errors?.email || isCreateError || isEditError}
-                  autoFocus
-                  required
-                  margin="dense"
-                  id="email"
-                  name="email"
-                  label="Email Address"
-                  type="email"
-                  variant="standard"
-                  fullWidth
-                />
-                <TextField
-                  value={values.firstName}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={!!errors?.firstName || isCreateError || isEditError}
-                  autoFocus
-                  required
-                  margin="dense"
-                  id="firstName"
-                  name="firstName"
-                  label="First Name"
-                  type="text"
-                  fullWidth
-                  variant="standard"
-                />
-                <TextField
-                  value={values.middleName}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={!!errors?.middleName || isCreateError || isEditError}
-                  autoFocus
-                  margin="dense"
-                  id="middleName"
-                  name="middleName"
-                  label="Middle Name"
-                  type="text"
-                  fullWidth
-                  variant="standard"
-                />
-                <TextField
-                  value={values.lastName}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={!!errors?.lastName || isCreateError || isEditError}
-                  autoFocus
-                  required
-                  margin="dense"
-                  id="lastName"
-                  name="lastName"
-                  label="Last Name"
-                  type="text"
-                  fullWidth
-                  variant="standard"
-                />
-                <TextField
-                  value={values.birthDate}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={!!errors?.birthDate || isCreateError || isEditError}
-                  autoFocus
-                  required
-                  margin="dense"
-                  id="birthDate"
-                  name="birthDate"
-                  label="Birth Date"
-                  type="date"
-                  fullWidth
-                  variant="standard"
-                />
-                <FormControl sx={{ my: 2, width: "100%" }}>
-                  <InputLabel id="demo-simple-select-helper-label">
-                    College
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-helper-label"
-                    id="college"
-                    name="college"
-                    label="College"
-                    value={values.college}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    disabled={isCollegeLoading}
-                    error={!!errors?.college || isCreateError || isEditError}
-                  >
-                    <MenuItem value={"-1:"}>
-                      <em>None</em>
-                    </MenuItem>
-                    {colleges &&
-                      colleges.map(({ collegeName, id }) => {
-                        return (
-                          <MenuItem value={`${id}:${collegeName}`}>
-                            {collegeName}
-                          </MenuItem>
-                        );
-                      })}
-                  </Select>
-                </FormControl>
-                <FormControl sx={{ my: 2, width: "100%" }}>
-                  <InputLabel id="course">Course</InputLabel>
-                  <Select
-                    labelId="course"
-                    id="course"
-                    name="course"
-                    label="Course"
-                    value={values.course}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={!!errors?.course || isCreateError || isEditError}
-                    disabled={isCollegeLoading || courses.length === 0}
-                  >
-                    <MenuItem value="-1:">
-                      <em>None</em>
-                    </MenuItem>
-                    {courses.map(({ name, id }) => {
-                      return (
-                        <MenuItem value={`${id}:${name}`}>{name}</MenuItem>
-                      );
-                    })}
-                  </Select>
-                </FormControl>
+                  <Grid item xs={12} md={4}>
+                    <TextField
+                      value={values.firstName}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={
+                        !!errors?.firstName || isCreateError || isEditError
+                      }
+                      autoFocus
+                      required
+                      margin="dense"
+                      id="firstName"
+                      name="firstName"
+                      label="First Name"
+                      type="text"
+                      fullWidth
+                      variant="standard"
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={4}>
+                    <TextField
+                      value={values.middleName}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={
+                        !!errors?.middleName || isCreateError || isEditError
+                      }
+                      autoFocus
+                      margin="dense"
+                      id="middleName"
+                      name="middleName"
+                      label="Middle Name"
+                      type="text"
+                      fullWidth
+                      variant="standard"
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={4}>
+                    <TextField
+                      value={values.lastName}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={!!errors?.lastName || isCreateError || isEditError}
+                      autoFocus
+                      required
+                      margin="dense"
+                      id="lastName"
+                      name="lastName"
+                      label="Last Name"
+                      type="text"
+                      fullWidth
+                      variant="standard"
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={4}>
+                    <TextField
+                      value={values.birthDate}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={
+                        !!errors?.birthDate || isCreateError || isEditError
+                      }
+                      autoFocus
+                      required
+                      margin="dense"
+                      id="birthDate"
+                      name="birthDate"
+                      label="Birth Date"
+                      type="date"
+                      fullWidth
+                      variant="standard"
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={4}>
+                    <FormControl sx={{ my: 2, width: "100%" }}>
+                      <InputLabel id="demo-simple-select-helper-label">
+                        College
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-helper-label"
+                        id="college"
+                        name="college"
+                        label="College"
+                        value={values.college}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        disabled={isCollegeLoading}
+                        error={
+                          !!errors?.college || isCreateError || isEditError
+                        }
+                      >
+                        <MenuItem value={"-1:"}>
+                          <em>None</em>
+                        </MenuItem>
+                        {colleges &&
+                          colleges.map(({ collegeName, id }) => {
+                            return (
+                              <MenuItem value={`${id}:${collegeName}`}>
+                                {collegeName}
+                              </MenuItem>
+                            );
+                          })}
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={12} md={4}>
+                    <FormControl sx={{ my: 2, width: "100%" }}>
+                      <InputLabel id="course">Course</InputLabel>
+                      <Select
+                        labelId="course"
+                        id="course"
+                        name="course"
+                        label="Course"
+                        value={values.course}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={!!errors?.course || isCreateError || isEditError}
+                        disabled={isCollegeLoading || courses.length === 0}
+                      >
+                        <MenuItem value="-1:">
+                          <em>None</em>
+                        </MenuItem>
+                        {courses.map(({ name, id }) => {
+                          return (
+                            <MenuItem value={`${id}:${name}`}>{name}</MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                </Grid>
               </DialogContent>
               <DialogActions>
                 <Button onClick={onClose}>Cancel</Button>
