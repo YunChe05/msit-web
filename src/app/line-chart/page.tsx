@@ -2,10 +2,15 @@
 import React, { useState } from "react";
 import Layout from "../components/layout";
 import { Button } from "@mui/material";
-import { useMoodCount } from "../../../packages/hooks/useMood";
+import {
+  useLineChartMoodCount,
+  useMoodCount,
+} from "../../../packages/hooks/useMood";
 import { Chart } from "react-google-charts";
 import { ChartFilterModal } from "../../../packages/components/ChartFilterModal";
 import { moods } from "../../../packages/constants/staticMessages";
+import { Filters } from "../../../packages/components/FIlters";
+import { lineChartFilter } from "../../../packages/atoms/moodAtoms";
 
 const lineChartOptions = {
   curveType: "function",
@@ -13,20 +18,12 @@ const lineChartOptions = {
 };
 
 export default function LineChart() {
-  const { lineChart } = useMoodCount();
-
-  const [isOpen, setIsOpen] = useState(false);
-  const handleOpen = () => setIsOpen(true);
-  const handleClose = () => {
-    setIsOpen(false);
-  };
+  const { lineChart } = useLineChartMoodCount();
 
   return (
     <Layout>
-      <div className="flex justify-end items-center pb-2">
-        <Button onClick={handleOpen} variant="outlined">
-          Filter
-        </Button>
+      <div className="flex justify-center items-center pb-2">
+        <Filters chartFilter={lineChartFilter} />
       </div>
       <div className="rounded-lg shadow-lg px-4 py-4 bg-gray-700 w-full">
         {!!lineChart && (
@@ -42,7 +39,6 @@ export default function LineChart() {
           />
         )}
       </div>
-      <ChartFilterModal isOpen={isOpen} onClose={handleClose} />
     </Layout>
   );
 }

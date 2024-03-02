@@ -6,6 +6,8 @@ import { BasicModal } from "../../../packages/components/BasicModal";
 import { useMoodCount } from "../../../packages/hooks/useMood";
 import { Chart } from "react-google-charts";
 import { ChartFilterModal } from "../../../packages/components/ChartFilterModal";
+import { chartFIlter } from "../../../packages/atoms/moodAtoms";
+import { Filters } from "../../../packages/components/FIlters";
 
 const options = {
   title: "Emotional trend",
@@ -17,18 +19,10 @@ const options = {
 export default function Analytics() {
   const { pieChart } = useMoodCount();
 
-  const [isOpen, setIsOpen] = useState(false);
-  const handleOpen = () => setIsOpen(true);
-  const handleClose = () => {
-    setIsOpen(false);
-  };
-
   return (
     <Layout>
-      <div className="flex justify-end items-center pb-2">
-        <Button onClick={handleOpen} variant="outlined">
-          Filter
-        </Button>
+      <div className="flex justify-center items-center pb-2">
+        <Filters chartFilter={chartFIlter} />
       </div>
       <div className="flex justify-center items-center">
         <div className="rounded-lg shadow-lg px-4 py-4 bg-gray-700 w-full lg:w-[80%] xl:w-[50%]">
@@ -43,8 +37,6 @@ export default function Analytics() {
           )}
         </div>
       </div>
-
-      <ChartFilterModal isOpen={isOpen} onClose={handleClose} />
     </Layout>
   );
 }

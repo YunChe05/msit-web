@@ -1,5 +1,9 @@
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { chartFIlter, moodCountAtom } from "../atoms/moodAtoms";
+import { PrimitiveAtom, useAtom, useAtomValue, useSetAtom } from "jotai";
+import {
+  chartFIlter,
+  lineMoodCountAtom,
+  moodCountAtom,
+} from "../atoms/moodAtoms";
 import { parseDate, parseDateType } from "../helper/parseDateTime";
 import { collegeAtom } from "../atoms/studentAtoms";
 import { College } from "../types/user";
@@ -17,8 +21,13 @@ export const useMoodCount = () => {
   return { pieChart: data?.pieChart, lineChart: data?.lineChart, isLoading };
 };
 
-export const useMoodFilter = () => {
-  const [moodFilter, setMoodFilter] = useAtom(chartFIlter);
+export const useLineChartMoodCount = () => {
+  const { data, isLoading } = useAtomValue(lineMoodCountAtom);
+  return { pieChart: data?.pieChart, lineChart: data?.lineChart, isLoading };
+};
+
+export const useMoodFilter = (chartFilter: PrimitiveAtom<Filters>) => {
+  const [moodFilter, setMoodFilter] = useAtom(chartFilter);
   const { colleges, isCollegeLoading } = useGetColleges();
 
   const courses = getCourses(colleges, moodFilter.college.id);
