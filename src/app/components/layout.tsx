@@ -18,14 +18,11 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { Button, Collapse } from "@mui/material";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import SpaceDashboardIcon from "@mui/icons-material/SpaceDashboard";
-import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import PeopAltIcon from "@mui/icons-material/PeopleAlt";
 import PieChartIcon from "@mui/icons-material/PieChart";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import BarChartIcon from "@mui/icons-material/BarChart";
+import MultilineChartIcon from "@mui/icons-material/MultilineChart";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { useLogout } from "../../../packages/hooks/useAuth";
@@ -71,7 +68,7 @@ const Layout: FC<LayoutProps> = ({ window, children }) => {
       </Toolbar>
       <Divider />
       <List>
-        {["Freedom Wall", "Pie Chart", "Bar Chart", "Users", "Profile"].map(
+        {["Freedom Wall", "Pie Chart", "Line Chart", "Users", "Profile"].map(
           (text, index) => (
             <ListItem
               key={text}
@@ -95,7 +92,7 @@ const Layout: FC<LayoutProps> = ({ window, children }) => {
                 >
                   {index === 0 && <SpaceDashboardIcon />}
                   {index === 1 && <PieChartIcon />}
-                  {index === 2 && <BarChartIcon />}
+                  {index === 2 && <MultilineChartIcon />}
                   {index === 3 && <PeopAltIcon />}
                   {index === 4 && <AccountCircleIcon />}
                 </ListItemIcon>

@@ -12,7 +12,7 @@ const lineChartOptions = {
   legend: { position: "bottom" },
 };
 
-export default function BarChart() {
+export default function LineChart() {
   const { lineChart } = useMoodCount();
 
   const [isOpen, setIsOpen] = useState(false);
