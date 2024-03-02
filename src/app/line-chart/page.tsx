@@ -1,13 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import Layout from "../components/layout";
-import { Button } from "@mui/material";
-import {
-  useLineChartMoodCount,
-  useMoodCount,
-} from "../../../packages/hooks/useMood";
+import { useLineChartMoodCount } from "../../../packages/hooks/useMood";
 import { Chart } from "react-google-charts";
-import { ChartFilterModal } from "../../../packages/components/ChartFilterModal";
 import { moods } from "../../../packages/constants/staticMessages";
 import { Filters } from "../../../packages/components/FIlters";
 import { lineChartFilter } from "../../../packages/atoms/moodAtoms";

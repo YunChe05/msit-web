@@ -1,11 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import Layout from "../components/layout";
-import { Box, Button, TextField, Typography } from "@mui/material";
-import { BasicModal } from "../../../packages/components/BasicModal";
 import { useMoodCount } from "../../../packages/hooks/useMood";
 import { Chart } from "react-google-charts";
-import { ChartFilterModal } from "../../../packages/components/ChartFilterModal";
 import { chartFIlter } from "../../../packages/atoms/moodAtoms";
 import { Filters } from "../../../packages/components/FIlters";
 
