@@ -4,7 +4,7 @@ import qs from "qs";
 const DEFAULT_ERROR_MSG = "Something went wrong";
 
 export const makeRequest = axios.create({
-  baseURL: process.env.APP_DEVELOPMENT_API_URL,
+  baseURL: process.env.APP_PUBLIC_API_URL,
   headers: {
     "Content-Type": "application/json",
   },
