@@ -4,27 +4,43 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { ThumbUp, ThumbDown } from "@mui/icons-material";
 import { Box } from "@mui/material";
+import { ReactionCount } from "../types/post";
+import Image from "next/image";
 
 type PostCardProps = {
   name: string;
   date: string;
   title: string;
   body: string;
-  likes: number;
-  dislikes: number;
+  reactionCount: ReactionCount;
 };
 export const PostCard = ({
   name,
   body,
   date,
-  dislikes,
-  likes,
   title,
+  reactionCount,
 }: PostCardProps) => {
+  const { angry, dislike, funny, happy, laugh, like, love, sad, surprised } =
+    reactionCount;
+
+  const counts = [
+    laugh,
+    surprised,
+    sad,
+    happy,
+    angry,
+    funny,
+    love,
+    like,
+    dislike,
+  ];
+
   return (
     <Card
       sx={{
-        maxWidth: 500,
+        maxWidth: 1000,
+        minWidth: 400,
         display: "flex",
         flexDirection: "column",
         border: 1,
@@ -55,38 +71,30 @@ export const PostCard = ({
           flexShrink: 0,
         }}
       >
-        <Box
-          sx={{
-            padding: 1,
-            flexDirection: "row",
-            display: "flex",
-            gap: 1,
-            justifyContent: "center",
-            borderRight: 1,
-            borderColor: "grey.500",
-            width: "100%",
-          }}
-        >
-          <ThumbUp />
-          <Typography variant="subtitle1" color="text.secondary">
-            {likes}
-          </Typography>
-        </Box>
-        <Box
-          sx={{
-            padding: 1,
-            flexDirection: "row",
-            display: "flex",
-            gap: 1,
-            justifyContent: "center",
-            width: "100%",
-          }}
-        >
-          <ThumbDown />
-          <Typography variant="subtitle1" color="text.secondary">
-            {dislikes}
-          </Typography>
-        </Box>
+        {counts.map((count, index) => (
+          <Box
+            sx={{
+              padding: 1,
+              flexDirection: "row",
+              display: "flex",
+              gap: 1,
+              justifyContent: "center",
+              borderRight: 1,
+              borderColor: "grey.500",
+              width: "100%",
+            }}
+          >
+            <Image
+              src={require(`../assets/emojicons/${index + 1}.png`)}
+              alt={count}
+              width={24}
+              height={24}
+            />
+            <Typography variant="subtitle1" color="text.secondary">
+              {count}
+            </Typography>
+          </Box>
+        ))}
       </Box>
     </Card>
   );

@@ -11,16 +11,15 @@ const Posts = () => {
   const { posts, meta, isLoading } = useGetPosts();
   return (
     <Layout>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-4 pt-2">
+      <div className="flex flex-col justify-center items-center gap-4 pt-2 w-full">
         {posts &&
           posts.map(
-            ({ title, post, dislikes, likes, createdAt, profile }, index) => {
+            ({ title, post, createdAt, profile, reaction_count }, index) => {
               return (
                 <PostCard
                   title={title}
                   body={post}
-                  likes={Number(likes)}
-                  dislikes={Number(dislikes)}
+                  reactionCount={reaction_count}
                   date={parseDate(createdAt, "MMM D, YYYY")}
                   name={`${profile.firstName} ${profile.lastName}`}
                   key={index}

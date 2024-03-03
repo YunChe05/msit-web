@@ -7,11 +7,22 @@ export type Post = {
   updatedAt: string;
   title: string;
   post: string;
-  likes: string;
-  dislikes: string;
   profile: Profile;
+  reaction_count: ReactionCount;
 };
 
 export type PostsQueryData = MakePayload<Post[]> & {
   meta: PaginationMeta;
+};
+
+export type ReactionCount = {
+  angry: string;
+  dislike: string;
+  funny: string;
+  happy: string;
+  laugh: string;
+  like: string;
+  love: string;
+  sad: string;
+  surprised: string;
 };
