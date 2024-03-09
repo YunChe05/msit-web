@@ -1,9 +1,14 @@
-import { useAtomValue } from "jotai";
-import { getPostsAtom } from "../atoms/postAtoms";
+import { useAtomValue, useSetAtom } from "jotai";
+import { getPostsAtom, paginationAtom } from "../atoms/postAtoms";
 
 export const useGetPosts = () => {
   const { data, isLoading } = useAtomValue(getPostsAtom);
   const { data: posts, meta } = data || {};
+  const setPage = useSetAtom(paginationAtom);
 
-  return { posts, meta, isLoading };
+  const handlePagination = (page: number) => {
+    setPage((prev) => ({ ...prev, page }));
+  };
+
+  return { posts, meta, isLoading, handlePagination };
 };

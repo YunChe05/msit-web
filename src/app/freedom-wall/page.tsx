@@ -5,10 +5,13 @@ import isAuth from "../../../packages/components/isAuth";
 import { PostCard } from "../../../packages/components/PostCard";
 import { useGetPosts } from "../../../packages/hooks/usePosts";
 import { parseDate } from "../../../packages/helper/parseDateTime";
-import { Typography } from "@mui/material";
+import { Pagination, Typography } from "@mui/material";
+import page from "../profile/page";
 
 const Posts = () => {
-  const { posts, meta, isLoading } = useGetPosts();
+  const { posts, meta, isLoading, handlePagination } = useGetPosts();
+
+  console.log(meta?.pagination.pageCount, meta?.pagination.page);
   return (
     <Layout>
       <div className="flex flex-col justify-center items-center gap-4 pt-2 w-full">
@@ -27,6 +30,14 @@ const Posts = () => {
               );
             }
           )}
+        <Pagination
+          count={meta?.pagination.pageCount || 1}
+          page={meta?.pagination.page || 1}
+          color="primary"
+          onChange={(_, page) => {
+            handlePagination(page);
+          }}
+        />
       </div>
     </Layout>
   );

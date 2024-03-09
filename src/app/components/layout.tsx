@@ -102,15 +102,6 @@ const Layout: FC<LayoutProps> = ({ window, children }) => {
           )
         )}
         <Divider />
-        <ListItem
-          disablePadding
-          onClick={handleCollapse}
-          className={
-            pathname.startsWith("/help")
-              ? "text-sky-600 bg-slate-100"
-              : "text-slate-700"
-          }
-        ></ListItem>
       </List>
     </div>
   );
