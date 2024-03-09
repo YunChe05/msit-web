@@ -167,8 +167,8 @@ export const FormModal = ({
           return (
             <Dialog
               open={isOpen}
-              fullScreen
               onClose={handleOnClose}
+              maxWidth={"md"}
               PaperProps={{
                 component: "form",
                 onSubmit: handleSubmit,
