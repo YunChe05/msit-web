@@ -1,5 +1,5 @@
-import { useAtomValue, useSetAtom } from "jotai";
-import { getPostsAtom, paginationAtom } from "../atoms/postAtoms";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { getPostsAtom, paginationAtom, searchAtom } from "../atoms/postAtoms";
 
 export const useGetPosts = () => {
   const { data, isLoading } = useAtomValue(getPostsAtom);
@@ -11,4 +11,18 @@ export const useGetPosts = () => {
   };
 
   return { posts, meta, isLoading, handlePagination };
+};
+
+export const useSearch = () => {
+  const [search, setSearch] = useAtom(searchAtom);
+
+  const handleSearch = (text?: string) => {
+    setSearch(text);
+  };
+
+  return {
+    search,
+    handleSearch,
+    handleClearSearch: () => setSearch(undefined),
+  };
 };

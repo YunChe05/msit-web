@@ -3,18 +3,26 @@
 import Layout from "../components/layout";
 import isAuth from "../../../packages/components/isAuth";
 import { PostCard } from "../../../packages/components/PostCard";
-import { useGetPosts } from "../../../packages/hooks/usePosts";
+import { useGetPosts, useSearch } from "../../../packages/hooks/usePosts";
 import { parseDate } from "../../../packages/helper/parseDateTime";
 import { Pagination, Typography } from "@mui/material";
 import page from "../profile/page";
+import { SearchField } from "../../../packages/components/SearchField";
 
 const Posts = () => {
   const { posts, meta, isLoading, handlePagination } = useGetPosts();
+
+  const { search, handleClearSearch, handleSearch } = useSearch();
 
   console.log(meta?.pagination.pageCount, meta?.pagination.page);
   return (
     <Layout>
       <div className="flex flex-col justify-center items-center gap-4 pt-2 w-full">
+        <SearchField
+          handleChangeText={handleSearch}
+          text={search}
+          handleCloseButton={handleClearSearch}
+        />
         {posts &&
           posts.map(
             ({ title, post, createdAt, profile, reaction_count }, index) => {
@@ -30,14 +38,17 @@ const Posts = () => {
               );
             }
           )}
-        <Pagination
-          count={meta?.pagination.pageCount || 1}
-          page={meta?.pagination.page || 1}
-          color="primary"
-          onChange={(_, page) => {
-            handlePagination(page);
-          }}
-        />
+
+        {posts && posts.length !== 0 && (
+          <Pagination
+            count={meta?.pagination.pageCount || 1}
+            page={meta?.pagination.page || 1}
+            color="primary"
+            onChange={(_, page) => {
+              handlePagination(page);
+            }}
+          />
+        )}
       </div>
     </Layout>
   );

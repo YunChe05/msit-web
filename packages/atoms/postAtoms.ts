@@ -8,15 +8,45 @@ import { atom } from "jotai";
 
 export const paginationAtom = atom({ page: 1, pageSize: 10 });
 
+export const searchAtom = atom<string | undefined>(undefined);
+
 export const getPostsAtom = atomWithQuery((get) => ({
-  queryKey: ["getPosts", get(accessTokenAtom), get(paginationAtom)],
+  queryKey: [
+    "getPosts",
+    get(accessTokenAtom),
+    get(paginationAtom),
+    get(searchAtom),
+  ],
   enabled: !!get(accessTokenAtom),
   queryFn: async () => {
     const { page, pageSize } = get(paginationAtom);
+    const search = get(searchAtom);
     try {
       const { data } = await makeRequest.get<PostsQueryData>("/posts", {
         params: {
           populate: "deep",
+          filters: {
+            $or: [
+              { title: { $contains: search } },
+              {
+                profile: {
+                  $or: [
+                    { studentId: { $contains: search } },
+                    { firstName: { $contains: search } },
+                    { middleName: { $contains: search } },
+                    { lastName: { $contains: search } },
+                    {
+                      course: { code: { $contains: search } },
+                    },
+                    {
+                      college: { code: { $contains: search } },
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+          sort: "id:desc",
           pagination: {
             page,
             pageSize,
