@@ -13,13 +13,7 @@ export const DatePickerComponent = ({
 }: DatePickerComponent) => {
   const [sd, ed] = convertTextDateToJavaScriptDate(startDate, endDate);
 
-  console.log(sd, ed);
   return (
-    <RangePicker
-      defaultStartDate={sd}
-      defaultEndDate={ed}
-      onChange={onChange}
-      size="large"
-    />
+    <RangePicker startDate={sd} endDate={ed} onChange={onChange} size="large" />
   );
 };
