@@ -63,7 +63,7 @@ const Layout: FC<LayoutProps> = ({ window, children }) => {
     <div>
       <Toolbar>
         <Typography variant="h6" noWrap component="div">
-          MSIT
+          Menu
         </Typography>
       </Toolbar>
       <Divider />
@@ -135,7 +135,7 @@ const Layout: FC<LayoutProps> = ({ window, children }) => {
 
           <div className="flex flex-row justify-between w-full">
             <Typography variant="h6" noWrap component="div">
-              {convertFromUrlParams(pathname)}
+              SENSE: Web-Based Application
             </Typography>
             <Button onClick={handleLogout} variant="outlined">
               Logout

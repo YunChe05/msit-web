@@ -19,7 +19,7 @@ export default function Login() {
   return (
     <div className="flex justify-center mt-16">
       <div style={{ minWidth: "30%" }}>
-        <div className="shadow-lg flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+        <div className="shadow-lg flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 bg-white rounded-md">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <div className="flex justify-center">
               <Image src="/login.gif" height={120} width={120} alt={""} />
