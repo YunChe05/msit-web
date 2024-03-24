@@ -17,7 +17,7 @@ export default function Login() {
     mutate(values);
   };
   return (
-    <div className="flex justify-center mt-16">
+    <div className="flex justify-center items-center h-[100dvh]">
       <div style={{ minWidth: "30%" }}>
         <div className="shadow-lg flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 bg-white rounded-md">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">

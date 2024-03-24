@@ -14,7 +14,6 @@ const Posts = () => {
 
   const { search, handleClearSearch, handleSearch } = useSearch();
 
-  console.log(meta?.pagination.pageCount, meta?.pagination.page);
   return (
     <Layout>
       <div className="flex flex-col justify-center items-center gap-4 pt-2 w-full">
