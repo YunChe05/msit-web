@@ -68,7 +68,7 @@ const Layout: FC<LayoutProps> = ({ window, children }) => {
       </Toolbar>
       <Divider />
       <List>
-        {["Freedom Wall", "Pie Chart", "Line Chart", "Users", "Profile"].map(
+        {["Freedom Wall", "Pie Chart", "Line Chart", "Users"].map(
           (text, index) => (
             <ListItem
               key={text}
