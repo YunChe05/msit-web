@@ -26,6 +26,7 @@ import MultilineChartIcon from "@mui/icons-material/MultilineChart";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { useLogout } from "../../../packages/hooks/useAuth";
+import SummarizeIcon from "@mui/icons-material/Summarize";
 import {
   convertFromUrlParams,
   convertToUrlParams,
@@ -58,6 +59,7 @@ const Layout: FC<LayoutProps> = ({ window, children }) => {
     await logout();
     router.push("/login");
   };
+  console.log("/" + convertToUrlParams("Freedom Wall") === pathname);
 
   const drawer = (
     <div>
@@ -68,38 +70,65 @@ const Layout: FC<LayoutProps> = ({ window, children }) => {
       </Toolbar>
       <Divider />
       <List>
-        {["Freedom Wall", "Pie Chart", "Line Chart", "Users"].map(
-          (text, index) => (
-            <ListItem
-              key={text}
-              disablePadding
-              className={
-                pathname.startsWith("/" + convertToUrlParams(text))
-                  ? "text-sky-600 bg-slate-100"
-                  : "text-slate-700"
-              }
-              onClick={() => {
-                router.push("/" + convertToUrlParams(text));
-              }}
-            >
-              <ListItemButton>
-                <ListItemIcon
-                  className={
-                    pathname.startsWith("/" + convertToUrlParams(text))
-                      ? "text-sky-600 bg-slate-100"
-                      : "text-slate-700"
-                  }
-                >
-                  {index === 0 && <SpaceDashboardIcon />}
-                  {index === 1 && <PieChartIcon />}
-                  {index === 2 && <MultilineChartIcon />}
-                  {index === 3 && <PeopAltIcon />}
-                  {index === 4 && <AccountCircleIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          )
+        {["Freedom Wall", "Pie Chart", "Line Chart", "Users", "Reports"].map(
+          (text, index) => {
+            const isSelected = pathname.startsWith(
+              "/" + convertToUrlParams(text)
+            );
+            return (
+              <ListItem
+                key={text}
+                disablePadding
+                className={
+                  isSelected ? "text-sky-600 bg-slate-100" : "text-slate-700"
+                }
+                onClick={() => {
+                  router.push("/" + convertToUrlParams(text));
+                }}
+              >
+                <ListItemButton>
+                  <ListItemIcon>
+                    {index === 0 && (
+                      <SpaceDashboardIcon
+                        className={
+                          isSelected ? "fill-sky-600" : "fill-slate-700"
+                        }
+                      />
+                    )}
+                    {index === 1 && (
+                      <PieChartIcon
+                        className={
+                          isSelected ? "fill-sky-600" : "fill-slate-700"
+                        }
+                      />
+                    )}
+                    {index === 2 && (
+                      <MultilineChartIcon
+                        className={
+                          isSelected ? "fill-sky-600" : "fill-slate-700"
+                        }
+                      />
+                    )}
+                    {index === 3 && (
+                      <PeopAltIcon
+                        className={
+                          isSelected ? "fill-sky-600" : "fill-slate-700"
+                        }
+                      />
+                    )}
+                    {index === 4 && (
+                      <SummarizeIcon
+                        className={
+                          isSelected ? "fill-sky-600" : "fill-slate-700"
+                        }
+                      />
+                    )}
+                  </ListItemIcon>
+                  <ListItemText primary={text} />
+                </ListItemButton>
+              </ListItem>
+            );
+          }
         )}
         <Divider />
       </List>
