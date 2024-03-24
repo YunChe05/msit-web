@@ -4,16 +4,19 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  TextField,
   Typography,
 } from "@mui/material";
 import { DatePickerComponent } from "./DatePickerComponent";
 import { useMoodFilter } from "../hooks/useMood";
 import { PrimitiveAtom } from "jotai";
+import { FiltersType, MoodEnum } from "../types/mood";
+import { moods } from "../constants/staticMessages";
 
 export const Filters = ({
   chartFilter,
 }: {
-  chartFilter: PrimitiveAtom<Filters>;
+  chartFilter: PrimitiveAtom<FiltersType>;
 }) => {
   const {
     collegeData,
@@ -24,11 +27,45 @@ export const Filters = ({
     setCollegeId,
     setCourseId,
     setMoodFilter,
+    setMood,
+    setStudentId,
   } = useMoodFilter(chartFilter);
 
-  const { college, course, end_date, start_date } = moodFilter;
+  const { college, course, end_date, start_date, selectedMood, studentId } =
+    moodFilter;
   return (
     <div className="flex flex-row justify-center items-center gap-4 w-full">
+      <div className="flex flex-col">
+        <TextField
+          value={studentId}
+          onChange={(event) => setStudentId(event.target.value)}
+          margin="dense"
+          id="studentId"
+          name="studentId"
+          label="Student Id"
+          type="text"
+          variant="outlined"
+        />
+        <FormControl sx={{ m: 1, minWidth: 120 }}>
+          <InputLabel id="demo-simple-select-helper-label">Mood</InputLabel>
+          <Select
+            labelId="demo-simple-select-helper-label"
+            id="demo-simple-select-helper"
+            value={selectedMood}
+            label="Mood"
+            onChange={(event) => {
+              setMood(event.target.value as MoodEnum);
+            }}
+          >
+            <MenuItem value="All">
+              <em>All</em>
+            </MenuItem>
+            {moods.map((value) => {
+              return <MenuItem value={value}>{value}</MenuItem>;
+            })}
+          </Select>
+        </FormControl>
+      </div>
       <div className="flex items-center justify-center">
         <DatePickerComponent
           endDate={end_date}
@@ -52,7 +89,7 @@ export const Filters = ({
             }}
           >
             <MenuItem value={"-1:"}>
-              <em>None</em>
+              <em>All</em>
             </MenuItem>
             {collegeData &&
               collegeData.map(({ collegeName, id }) => {
@@ -79,25 +116,15 @@ export const Filters = ({
             }}
           >
             <MenuItem value="-1:">
-              <em>None</em>
+              <em>All</em>
             </MenuItem>
             {courses.map(({ name, id }) => {
               return <MenuItem value={`${id}:${name}`}>{name}</MenuItem>;
             })}
           </Select>
-
-          <Button
-            onClick={() =>
-              setMoodFilter({
-                start_date: "",
-                end_date: "",
-                course: { id: -1, name: "" },
-                college: { id: -1, name: "" },
-              })
-            }
-          />
         </FormControl>
       </div>
+
       <div className="flex justify-center">
         <Button
           size="large"
@@ -107,11 +134,13 @@ export const Filters = ({
               end_date: "",
               course: { id: -1, name: "" },
               college: { id: -1, name: "" },
+              selectedMood: "All",
+              studentId: undefined,
             })
           }
           variant="contained"
         >
-          <Typography color={"black"}>Reset</Typography>
+          <Typography color={"black"}>Clear</Typography>
         </Button>
       </div>
     </div>

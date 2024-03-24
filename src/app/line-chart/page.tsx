@@ -3,9 +3,9 @@ import React from "react";
 import Layout from "../components/layout";
 import { useLineChartMoodCount } from "../../../packages/hooks/useMood";
 import { Chart } from "react-google-charts";
-import { moods } from "../../../packages/constants/staticMessages";
 import { Filters } from "../../../packages/components/FIlters";
 import { lineChartFilter } from "../../../packages/atoms/moodAtoms";
+import { Typography } from "@mui/material";
 
 const lineChartOptions = {
   curveType: "function",
@@ -13,11 +13,14 @@ const lineChartOptions = {
 };
 
 export default function LineChart() {
-  const { lineChart } = useLineChartMoodCount();
+  const { lineChart, moods } = useLineChartMoodCount();
 
   return (
     <Layout>
-      <div className="flex justify-center items-center pb-2">
+      <div className="flex flex-col justify-center items-center pb-2">
+        <Typography className="text-center pb-3" variant="h6">
+          SENSE: Emotion Trend Line Chart
+        </Typography>
         <Filters chartFilter={lineChartFilter} />
       </div>
       <div className="rounded-lg shadow-lg px-4 py-4 bg-gray-700 w-full">

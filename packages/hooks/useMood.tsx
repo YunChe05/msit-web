@@ -7,6 +7,7 @@ import {
 import { parseDate, parseDateType } from "../helper/parseDateTime";
 import { collegeAtom } from "../atoms/studentAtoms";
 import { College } from "../types/user";
+import { FiltersType, Moods } from "../types/mood";
 
 export const getCourses = (
   colleges: College[] | undefined,
@@ -18,15 +19,27 @@ export const getCourses = (
 };
 export const useMoodCount = () => {
   const { data, isLoading } = useAtomValue(moodCountAtom);
-  return { pieChart: data?.pieChart, lineChart: data?.lineChart, isLoading };
+  return {
+    pieChart: data?.pieChart,
+    lineChart: data?.lineChart,
+    isLoading,
+    moods: data?.moods || [],
+    isDateFiltered: !!data?.isDateFiltered,
+  };
 };
 
 export const useLineChartMoodCount = () => {
   const { data, isLoading } = useAtomValue(lineMoodCountAtom);
-  return { pieChart: data?.pieChart, lineChart: data?.lineChart, isLoading };
+  return {
+    pieChart: data?.pieChart,
+    lineChart: data?.lineChart,
+    isLoading,
+    moods: data?.moods || [],
+    isDateFiltered: !!data?.isDateFiltered,
+  };
 };
 
-export const useMoodFilter = (chartFilter: PrimitiveAtom<Filters>) => {
+export const useMoodFilter = (chartFilter: PrimitiveAtom<FiltersType>) => {
   const [moodFilter, setMoodFilter] = useAtom(chartFilter);
   const { colleges, isCollegeLoading } = useGetColleges();
 
@@ -60,6 +73,14 @@ export const useMoodFilter = (chartFilter: PrimitiveAtom<Filters>) => {
     });
   };
 
+  const setStudentId = (text: string) => {
+    setMoodFilter((prev) => ({ ...prev, studentId: text }));
+  };
+
+  const setMood = (mood: Moods) => {
+    setMoodFilter((prev) => ({ ...prev, selectedMood: mood }));
+  };
+
   return {
     collegeData: colleges as College[] | undefined,
     courses,
@@ -69,6 +90,8 @@ export const useMoodFilter = (chartFilter: PrimitiveAtom<Filters>) => {
     setCollegeId,
     setCourseId,
     setMoodFilter,
+    setMood,
+    setStudentId,
   };
 };
 

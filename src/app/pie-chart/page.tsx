@@ -5,20 +5,23 @@ import { useMoodCount } from "../../../packages/hooks/useMood";
 import { Chart } from "react-google-charts";
 import { chartFIlter } from "../../../packages/atoms/moodAtoms";
 import { Filters } from "../../../packages/components/FIlters";
-
-const options = {
-  title: "Emotional trend",
-  legend: "true",
-  pieSliceText: "label",
-  is3D: true,
-};
+import { Typography } from "@mui/material";
 
 export default function Analytics() {
-  const { pieChart } = useMoodCount();
+  const { pieChart, isDateFiltered, lineChart } = useMoodCount();
 
+  const options = {
+    title: `Emotional trend (${isDateFiltered ? lineChart?.dateRange : "All"})`,
+    legend: "true",
+    pieSliceText: "label",
+    is3D: true,
+  };
   return (
     <Layout>
-      <div className="flex justify-center items-center pb-2">
+      <div className="flex-col justify-center items-center pb-2">
+        <Typography className="text-center pb-3" variant="h6">
+          SENSE: Emotion Trend Pie Chart
+        </Typography>
         <Filters chartFilter={chartFIlter} />
       </div>
       <div className="flex justify-center items-center">
