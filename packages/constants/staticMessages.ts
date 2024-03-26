@@ -11,5 +11,3 @@ export const EmptyForm = {
   college: "-1:",
   course: "-1:",
 };
-
-export const moods = ["Happy", "Sad", "Content", "Angry", "Upset", "Relaxed"];

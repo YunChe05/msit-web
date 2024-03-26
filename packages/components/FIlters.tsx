@@ -11,7 +11,7 @@ import { DatePickerComponent } from "./DatePickerComponent";
 import { useMoodFilter } from "../hooks/useMood";
 import { PrimitiveAtom } from "jotai";
 import { FiltersType, MoodEnum } from "../types/mood";
-import { moods } from "../constants/staticMessages";
+import { moods } from "../constants/data";
 
 export const Filters = ({
   chartFilter,
