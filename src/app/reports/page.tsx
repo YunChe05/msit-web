@@ -2,12 +2,19 @@
 
 import { reportFilterAtom } from "../../../packages/atoms/reportAtoms";
 import { Filters } from "../../../packages/components/FIlters";
-import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
 import Layout from "../components/layout";
 import { PdfDocument } from "../../../packages/components/PdfDocument";
 import { useReports } from "../../../packages/hooks/useMood";
-import { Button } from "@mui/material";
 
+import dynamic from "next/dynamic";
+
+const PDFViewer = dynamic(
+  () => import("@react-pdf/renderer").then((mod) => mod.PDFViewer),
+  {
+    ssr: false,
+    loading: () => <p>Loading...</p>,
+  }
+);
 const Reports = () => {
   const { moodData } = useReports();
   return (
