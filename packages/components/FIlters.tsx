@@ -12,6 +12,7 @@ import { useMoodFilter } from "../hooks/useMood";
 import { PrimitiveAtom } from "jotai";
 import { FiltersType, MoodEnum } from "../types/mood";
 import { moods } from "../constants/data";
+import { useState } from "react";
 
 export const Filters = ({
   chartFilter,
@@ -33,7 +34,7 @@ export const Filters = ({
 
   const { college, course, end_date, start_date, selectedMood, studentId } =
     moodFilter;
-  console.log(studentId);
+  const [key, setKey] = useState(0);
   return (
     <div className="flex flex-row justify-center items-center gap-4 w-full">
       <div className="flex flex-col">
@@ -69,6 +70,7 @@ export const Filters = ({
       </div>
       <div className="flex items-center justify-center">
         <DatePickerComponent
+          key={key}
           endDate={end_date}
           startDate={start_date}
           onChange={setDateRange}
@@ -129,7 +131,7 @@ export const Filters = ({
       <div className="flex justify-center">
         <Button
           size="large"
-          onClick={() =>
+          onClick={() => {
             setMoodFilter({
               start_date: "",
               end_date: "",
@@ -137,8 +139,9 @@ export const Filters = ({
               college: { id: -1, name: "" },
               selectedMood: "All",
               studentId: "",
-            })
-          }
+            });
+            setKey((prev) => prev + 1);
+          }}
           variant="contained"
         >
           <Typography color={"black"}>Clear</Typography>
