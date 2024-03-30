@@ -59,7 +59,6 @@ const Layout: FC<LayoutProps> = ({ window, children }) => {
     await logout();
     router.push("/login");
   };
-  console.log("/" + convertToUrlParams("Freedom Wall") === pathname);
 
   const drawer = (
     <div>

@@ -17,6 +17,7 @@
     "@mui/material": "^5.15.3",
     "@mui/x-data-grid": "^6.19.3",
     "@mui/x-data-grid-generator": "^6.19.3",
+    "@react-pdf/renderer": "^3.4.2",
     "@tanstack/query-core": "^5.17.19",
     "add": "^2.0.6",
     "axios": "^1.6.7",
