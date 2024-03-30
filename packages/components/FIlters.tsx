@@ -33,6 +33,7 @@ export const Filters = ({
 
   const { college, course, end_date, start_date, selectedMood, studentId } =
     moodFilter;
+  console.log(studentId);
   return (
     <div className="flex flex-row justify-center items-center gap-4 w-full">
       <div className="flex flex-col">
@@ -135,7 +136,7 @@ export const Filters = ({
               course: { id: -1, name: "" },
               college: { id: -1, name: "" },
               selectedMood: "All",
-              studentId: undefined,
+              studentId: "",
             })
           }
           variant="contained"
