@@ -1,11 +1,16 @@
+import { MakePayload } from "./helperType";
+import { PaginationMeta, Profile } from "./user";
+
 export type ChartData = {
   moods: string[];
   isDateFiltered: boolean;
   pieChart: [string, number][];
-  lineChart: {
-    dateRange: string;
-    data: [string, number, number, number, number, number, number][];
-  };
+  lineChart: LineChart;
+};
+
+export type LineChart = {
+  dateRange: string;
+  data: [string, number, number, number, number, number, number, number][];
 };
 
 export type FiltersType = {
@@ -27,3 +32,17 @@ export type MoodEnum =
   | "Relaxed";
 
 export type Moods = `${MoodEnum}`;
+
+export type MoodData = {
+  id: number;
+  rate: number;
+  remarks: string | null;
+  mood: Moods;
+  createdAt: string;
+  updatedAt: string;
+  profile: Profile;
+};
+
+export type MoodWithMeta = MakePayload<MoodData[]> & {
+  meta: PaginationMeta;
+};

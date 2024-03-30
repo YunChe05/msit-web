@@ -8,6 +8,7 @@ import { parseDate, parseDateType } from "../helper/parseDateTime";
 import { collegeAtom } from "../atoms/studentAtoms";
 import { College } from "../types/user";
 import { FiltersType, Moods } from "../types/mood";
+import { reportsAtom } from "../atoms/reportAtoms";
 
 export const getCourses = (
   colleges: College[] | undefined,
@@ -36,6 +37,14 @@ export const useLineChartMoodCount = () => {
     isLoading,
     moods: data?.moods || [],
     isDateFiltered: !!data?.isDateFiltered,
+  };
+};
+
+export const useReports = () => {
+  const { data, isLoading } = useAtomValue(reportsAtom);
+  const { data: moodData, meta } = data || {};
+  return {
+    moodData,
   };
 };
 
